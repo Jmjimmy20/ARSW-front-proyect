@@ -1,0 +1,36 @@
+.root {
+    height: 100vh;
+  }
+  
+  .image {
+    background-image: url(https://source.unsplash.com/random);
+    background-repeat: no-repeat;
+    background-color: darkgray;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .paper {
+    margin: 8% 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .avatar {
+    margin: 1em;
+    background-color: green;
+  }
+  
+  .form {
+    width: 100%;
+    margin-top: 1em;
+  }
+  
+  body .submit {
+    margin: 2em 0em 2em;
+  }
+  
+  .copyright {
+    width: 100%;
+  }
