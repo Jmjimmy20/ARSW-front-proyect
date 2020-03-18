@@ -4,6 +4,7 @@ import { Route, Switch, Router, Redirect, useLocation } from 'react-router-dom';
 import login from './views/login/Login';
 
 import { createBrowserHistory } from 'history';
+import Nassistant from './views/nurseAssistant/Nassistant';
 
 const history = createBrowserHistory();
 
@@ -17,7 +18,7 @@ function App() {
             </Route>
             {/* <Route path="/main" component={routes} /> */}
             <Route path="/login" component={login} />
-            {/* <Route path="/admin" component={admin} /> */}
+            <Route path="/NurseAssistantBoard" component={Nassistant} /> 
             <Route path="*">
               <NoMatch />
             </Route>

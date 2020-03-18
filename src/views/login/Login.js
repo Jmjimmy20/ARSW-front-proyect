@@ -96,17 +96,7 @@ export class login extends Component {
     }
   }
 
-  options = [
-    {
-      value: "hospital_1",
-      label: "Hospital 1",
-    },
-    {
-      value: "Hospital_1",
-      label: "Hospital 2",
-    },
-
-  ]
+  
   
   render() {
     return (
@@ -123,33 +113,15 @@ export class login extends Component {
                 Sign in
               </Typography>
               <form className="form" noValidate>
-                <TextField 
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  select
-                  id="select-company"
-                  label="Choose"
-                  helperText="Select your Company"
-                  error={this.state.errorCompany}
-                  value={this.state.company}
-                  onChange={(e) => this.handleCompany(e)}
-                >
-                  {this.options.map((option, index) => (
-                    <MenuItem key={index} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
                 <TextField
                   variant="outlined"
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  placeholder="...@mail.com"
-                  name="email"
+                  id="user"
+                  label="ID User"
+                  placeholder="12345"
+                  name="user"
                   autoComplete="email"
                   error={this.state.errorEmail}
                   value={this.state.email}
@@ -200,13 +172,18 @@ export class login extends Component {
                 >
                   Sign In
                 </Button>
-                <Grid container justify="center" alignItems="center">
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                </Grid>
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className="submit"
+                  href = {"/NurseAssistantBoard"}
+                >
+                  Enfermera Auxiliar
+                </Button>
+                
                 <Box mt={4}>
                   <Copyright />
                 </Box>
