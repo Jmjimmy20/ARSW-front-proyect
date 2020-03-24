@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import cookie from 'react-cookies'
 import TextField from '@material-ui/core/TextField';
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
 import Axios from 'axios'
@@ -19,20 +20,54 @@ export default class EditEnfermera extends Component {
             errorType:false,
             errorMail:false,
             typeDocument:'',
-            errorTypeD:false
+            errorTypeD:false,
+            enfermeras: []
         }
     }
 
     //expresiones regulares
-    cedulaRegEx = /^([0-9])*$/;
     textRegEx = /^([a-zA-Z ])*$/;
-    rhRegEx= /^(AB|O|A)(\+|-)$/;
     mailRegEx =/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
 
+    componentDidMount() {
+        var token = cookie.load('userToken');
+        //console.log(token);
+        Axios.get('http://localhost:8081/admin/boss-nurses',{headers:{Authorization: token}})
+        .then(res =>{
+          //console.log(res.data)
+            for(const n of res.data){
+                this.state.enfermeras.push(n);
+            }
+        });
 
-    typeNurseChange = (event) => {
-        this.setState({
-            typeNurse: event.target.value, errorType:false
+        Axios.get('http://localhost:8081/admin/assistant-nurses',{headers:{Authorization: token}})
+        .then(res =>{
+          console.log(res.data)
+            for(const n of res.data){
+                this.state.enfermeras.push(n);
+            }
+        });
+        console.log(this.state.enfermeras.length);
+    }
+    
+
+    getNurse = (event) => {
+        let idNurse = event.target.value;
+        console.log(event.target.value);
+        this.setState((state) => {
+            for(const nurse of state.enfermeras){
+                if(nurse.cedulaNurse === idNurse){
+                    console.log(nurse);
+                    return({
+                        cedulaNurse: idNurse,
+                        nurseName: nurse.nurseName,
+                        typeDocument: nurse.typeDocument,
+                        RHNurse: nurse.RHNurse,
+                        typeNurse: nurse.typeNurse,
+                        mailNurse: nurse.mailNurse
+                    })
+                }
+            }
         })
     }
     nameNurseChange = (event) =>{
@@ -130,12 +165,15 @@ export default class EditEnfermera extends Component {
                             <InputLabel id="typeNurseInput">Enfermera</InputLabel>
                             <NativeSelect 
                                 fullWidth
-                                value={this.state.typeNurse}
-                                onChange={this.typeNurseChange}
+                                value={this.state.nurseName}
+                                onChange={this.getNurse}
                                 >
                                 <option value=""> </option>
-                                <option value={10}>Asistente</option>
-                                <option value={20}>Jefe</option>
+                                {this.state.enfermeras.map((enfermera, index) => {
+                                    return(
+                                        <option key={index} value={enfermera.cedulaNurse}> {enfermera.typeNurse} - {enfermera.nurseName}</option>
+                                    );
+                                })}
                             </NativeSelect>
                         </FormControl>
                     </Grid>

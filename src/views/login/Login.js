@@ -96,7 +96,6 @@ export class login extends Component {
             var jwtDecode = require('jwt-decode');
             let token = res.headers.authorization;
             let deco = jwtDecode(token);
-            console.log(deco);
             cookie.save('userToken', token, { path: '/' })
             if (deco.jti === "ASSISTANT") 
               window.location.href = "/NurseAssistantBoard"

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import cookie from 'react-cookies'
 import TextField from '@material-ui/core/TextField';
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
 import Axios from 'axios'
@@ -29,6 +30,12 @@ export default class AddEfermera extends Component {
     textRegEx = /^([a-zA-Z ])*$/;
     rhRegEx= /^(AB|O|A)(\+|-)$/;
     mailRegEx =/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
+
+
+    componentDidMount() {
+        var token = cookie.load('userToken');
+        console.log(token);
+    }
 
 
     typeNurseChange = (event) => {
@@ -114,6 +121,7 @@ export default class AddEfermera extends Component {
         }
 
         if(!this.state.errorNurseName&&!this.state.errorCedula&&!this.state.errorRH&&!this.state.errorType&&!this.state.errorMail){
+            var token = cookie.load('userToken');
             let nurse = {
                 NurseName: this.state.nurseName,
                 typeDoc: 'c.c.',
@@ -123,7 +131,7 @@ export default class AddEfermera extends Component {
                 mail: this.state.mailNurse
             } 
             Axios 
-                .post("http://localhost:8081/admin/nurse-and-user",nurse)
+                .post("http://localhost:8081/admin/nurse-and-user",nurse ,{headers:{Authorization: token}})
                 .then(res=>{console.log(res)})          
         }
 
