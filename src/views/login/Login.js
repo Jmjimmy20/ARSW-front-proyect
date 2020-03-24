@@ -18,6 +18,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 // Css
 import "./Login.css";
+import Axios from 'axios';
 
 export class login extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ export class login extends Component {
  
 	componentDidMount() {
   }
+
 
   handleEmail= (event) => {
     this.setState({
@@ -74,15 +76,41 @@ export class login extends Component {
 
   handleClick = (event) => {
     event.preventDefault();
-    if (this.state.email !== "" && this.state.password !== "" && this.state.company !== "") {
-      // Action
+
+    if (this.state.email !== "" && this.state.password !== "") {
+      var data = {"username": this.state.email, "password": this.state.password };
+
+      fetch('http://localhost:8081/login',{
+        method: 'POST',
+        body: JSON.stringify(data)
+        
+      }).then(function(j){
+        console.log(j.headers.get("Authorization"));
+      });
+
+      fetch('http://localhost:8081/admin/users',{
+        method: 'GET',
+        credentials:'include'
+        
+      }).then(function(j){
+        console.log(j.data);
+      });
+
+      /*
+      var misCabeceras = new Headers();
+      var miInit = {method: 'POST',
+                    body: JSON.stringify({username: this.state.email, password: this.state.password }),
+                    headers: misCabeceras,
+                    mode: 'cors',
+                    cache: 'default'};
+      fetch('http://localhost:8081/login', miInit)
+      .then(res =>{})*/
+
+        /*Axios
+          .post("http://localhost:8081/login", {username: this.state.email, password: this.state.password },{headers: {'Access-Control-Allow-Origin': '*', 'Content-Type':'application/json'}})
+          .then(res =>{console.log(res)})*/
     }
     else {
-      if (this.state.company === "") {
-        this.setState({
-          errorCompany: true
-        });
-      }
       if (this.state.email === "") {
         this.setState({
           errorEmail: true
@@ -122,7 +150,6 @@ export class login extends Component {
                   label="ID User"
                   placeholder="12345"
                   name="user"
-                  autoComplete="email"
                   error={this.state.errorEmail}
                   value={this.state.email}
                   onChange={(e) => this.handleEmail(e)}
@@ -161,7 +188,7 @@ export class login extends Component {
                     ),
                   }}
                   />
-                  
+                
                 <Button
                   type="submit"
                   fullWidth
@@ -182,6 +209,28 @@ export class login extends Component {
                   href = {"/NurseAssistantBoard"}
                 >
                   Enfermera Auxiliar
+                </Button>
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className="submit"
+                  href = {"/Nurse"}
+                >
+                  Enfermera Jefe
+                </Button>
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className="submit"
+                  href = {"/Admin"}
+                >
+                  Admin
                 </Button>
                 
                 <Box mt={4}>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Paper, Button, Typography } from '@material-ui/core'
 import Axios from 'axios'
 
-export default class Nassistant extends Component {
+export default class Nurses extends Component {
 
     constructor(props) {
         super(props);
@@ -88,30 +88,19 @@ export default class Nassistant extends Component {
                                     Log Out
                                 </Button>
                             </Grid>
-                            <Grid item xs={6} >
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className="submit"
-                                    >
-                                    Alerta
-                                </Button>
-                            </Grid>
 
                             <Grid container style={{marginBottom: "3%"}}>
                                 <Grid item xs={2}></Grid>
                                     <Grid item xs={6} component={Paper} style={{ padding: 5 }}>
                                     <FormControl fullWidth>
-                                        <InputLabel htmlFor="habitacionSelect">Habitacón</InputLabel>
+                                        <InputLabel htmlFor="nurseAssistantSelect">Enfermera Auxiliar</InputLabel>
                                         <NativeSelect
                                             fullWidth
                                             value={this.state.nHabitacion}
                                             onChange={this.roomChange}
                                             inputProps={{
-                                                name: 'Habitacion',
-                                                id: 'habitacionSelect',
+                                                name: 'Enfermera Auxiliar',
+                                                id: 'nurseAssistantSelect',
                                             }}
                                         >   <option value="" />
                                             {this.state.habitaciones.map((habitacion, index) => {
@@ -120,7 +109,7 @@ export default class Nassistant extends Component {
                                                 );
                                             })}
                                         </NativeSelect>
-                                        <FormHelperText>Habitacion</FormHelperText>
+                                        <FormHelperText>Enfermera Auxiliar</FormHelperText>
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={2}></Grid>

@@ -5,6 +5,9 @@ import login from './views/login/Login';
 
 import { createBrowserHistory } from 'history';
 import Nassistant from './views/nurseAssistant/Nassistant';
+import Nurse from './views/nurse/Nurse';
+import Admin from './views/admin/Admin';
+//<Route path="/Admin" component={Admin}/>
 
 const history = createBrowserHistory();
 
@@ -18,7 +21,9 @@ function App() {
             </Route>
             {/* <Route path="/main" component={routes} /> */}
             <Route path="/login" component={login} />
-            <Route path="/NurseAssistantBoard" component={Nassistant} /> 
+            <Route path="/NurseAssistantBoard" component={Nassistant} />
+            <Route path="/Nurse" component={Nurse} />  
+            <Route path="/Admin" component={Admin} /> 
             <Route path="*">
               <NoMatch />
             </Route>
