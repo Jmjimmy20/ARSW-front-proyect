@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Paper, Button, Typography, FormGroup, FormControlLabel, Select, MenuItem } from '@material-ui/core'
+import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
 import Axios from 'axios'
 
 export default class AddEfermera extends Component {
@@ -28,8 +27,8 @@ export default class AddEfermera extends Component {
     //expresiones regulares
     cedulaRegEx = /^([0-9])*$/;
     textRegEx = /^([a-zA-Z ])*$/;
-    rhRegEx= /^(AB|O|A)(\+|\-)$/;
-    mailRegEx =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+    rhRegEx= /^(AB|O|A)(\+|-)$/;
+    mailRegEx =/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
 
 
     typeNurseChange = (event) => {
@@ -68,7 +67,7 @@ export default class AddEfermera extends Component {
     createNurse = (event) =>{
         event.preventDefault();
         //nombre
-        if(this.state.nurseName === '' || this.state.nurseName.length==0){
+        if(this.state.nurseName === '' || this.state.nurseName.length === 0){
             this.setState({
                 errorNurseName:true
             })
@@ -78,7 +77,7 @@ export default class AddEfermera extends Component {
             })
         }
         //cedula
-        if(this.state.cedulaNurse === '' || this.state.cedulaNurse.length==0){
+        if(this.state.cedulaNurse === '' || this.state.cedulaNurse.length === 0){
             this.setState({
                 errorCedula:true
             })
@@ -88,7 +87,7 @@ export default class AddEfermera extends Component {
             })
         }
         //RH
-        if(this.state.RHNurse === '' || this.state.RHNurse.length==0){
+        if(this.state.RHNurse === '' || this.state.RHNurse.length === 0){
             this.setState({
                 errorRH:true
             })
@@ -98,13 +97,13 @@ export default class AddEfermera extends Component {
             })
         }
         //type
-        if(this.state.typeNurse === '' || this.state.typeNurse.length==0){
+        if(this.state.typeNurse === '' || this.state.typeNurse.length === 0){
             this.setState({
                 errorType:true
             })
         }
         //mail
-        if(this.state.mailNurse === '' || this.state.mailNurse.length==0){
+        if(this.state.mailNurse === '' || this.state.mailNurse.length === 0){
             this.setState({
                 errorMail:true
             })

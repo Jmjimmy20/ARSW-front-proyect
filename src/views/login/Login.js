@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import cookie from 'react-cookies'
 // Material Ui Elements
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -10,7 +11,6 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
@@ -21,6 +21,7 @@ import "./Login.css";
 import Axios from 'axios';
 
 export class login extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +38,7 @@ export class login extends Component {
     this.handlePassword = this.handlePassword.bind(this);
     this.handleShowPassword = this.handleShowPassword.bind(this);
     this.handleCompany = this.handleCompany.bind(this);
+    console.log(props);
   }
  
 	componentDidMount() {
@@ -78,37 +80,34 @@ export class login extends Component {
     event.preventDefault();
 
     if (this.state.email !== "" && this.state.password !== "") {
-      var data = {"username": this.state.email, "password": this.state.password };
+      let data = {
+        username: this.state.email, 
+        password: this.state.password 
+      }
 
-      fetch('http://localhost:8081/login',{
-        method: 'POST',
-        body: JSON.stringify(data)
-        
-      }).then(function(j){
-        console.log(j.headers.get("Authorization"));
-      });
-
-      fetch('http://localhost:8081/admin/users',{
-        method: 'GET',
-        credentials:'include'
-        
-      }).then(function(j){
-        console.log(j.data);
-      });
-
-      /*
-      var misCabeceras = new Headers();
-      var miInit = {method: 'POST',
-                    body: JSON.stringify({username: this.state.email, password: this.state.password }),
-                    headers: misCabeceras,
-                    mode: 'cors',
-                    cache: 'default'};
-      fetch('http://localhost:8081/login', miInit)
-      .then(res =>{})*/
-
-        /*Axios
-          .post("http://localhost:8081/login", {username: this.state.email, password: this.state.password },{headers: {'Access-Control-Allow-Origin': '*', 'Content-Type':'application/json'}})
-          .then(res =>{console.log(res)})*/
+      Axios
+        .post("http://localhost:8081/login", data, {
+            headers: {
+              'Content-Type':'application/json'
+            }
+          })
+        .then(res => {
+          if (res.status === 200 ) {
+            var jwtDecode = require('jwt-decode');
+            let token = res.headers.authorization;
+            let deco = jwtDecode(token);
+            console.log(deco);
+            cookie.save('userToken', token, { path: '/' })
+            if (deco.jti === "ASSISTANT") 
+              window.location.href = "/NurseAssistantBoard"
+            else if (deco.jti === "ADMIN")
+              window.location.href = "/Admin"
+            else if (deco.jti === "MANAGER")
+              window.location.href = "/Nurse"
+          }
+        }).catch(err => {
+          alert("Error al autenticarce");
+        })
     }
     else {
       if (this.state.email === "") {

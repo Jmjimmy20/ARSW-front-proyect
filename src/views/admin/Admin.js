@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles';
-import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Paper, Button, Typography, FormGroup, FormControlLabel, Select, MenuItem } from '@material-ui/core'
-import Axios from 'axios'
+import { Grid, Button } from '@material-ui/core'
 import { Route, Switch } from 'react-router-dom';
 import AdminEnfermera from './AdminEnfermera';
 import AdminPiso from './AdminPiso';
@@ -80,7 +77,7 @@ export default class Admin extends Component {
                     </Grid>
 
                     <Grid item xs={6} style={{ padding: 3 }}>   
-                        <Grid container spacing={3} style={{marginTop: "3%"}} style={{marginLeft: "3%"}}>
+                        <Grid container spacing={3} style={{ marginTop: "3%", marginLeft: "3%"}}>
                             <Grid item xs={3}>
                                 
                             </Grid>
