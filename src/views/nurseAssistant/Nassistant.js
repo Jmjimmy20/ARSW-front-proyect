@@ -1,6 +1,23 @@
 import React, { Component } from 'react'
-import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Paper, Button, Typography } from '@material-ui/core'
+import cookie from 'react-cookies';
+import { 
+    Grid,
+    FormControl,
+    InputLabel,
+    NativeSelect,
+    FormHelperText,
+    Paper,
+    Button,
+    Typography,
+    Table,
+    TableBody,
+    TableHeader,
+    TableHeaderColumn,
+    TableRow,
+    TableRowColumn
+ } from '@material-ui/core'
 import Axios from 'axios'
+
 
 export default class Nassistant extends Component {
 
@@ -16,6 +33,13 @@ export default class Nassistant extends Component {
             habitaciones:[],
             pacientes: []
         }
+        this.logout = this.logout.bind(this)
+    }
+
+    logout(){
+        cookie.remove('userToken',{path:'/'})
+        console.log(cookie.load('userToken'))
+        this.props.history.push("/")
     }
 
     componentDidMount() {
@@ -69,7 +93,16 @@ export default class Nassistant extends Component {
         })
 
     }
-    
+
+    headCells = [
+        { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
+        { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
+        { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
+        { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
+        { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
+    ];
+
+
     render() {
         return (
             <div>
@@ -83,7 +116,7 @@ export default class Nassistant extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="submit"
-                                    href = {"/Login"}
+                                    onClick = {this.logout}
                                     >
                                     Log Out
                                 </Button>
@@ -177,9 +210,19 @@ export default class Nassistant extends Component {
                                 </Typography>
                             </Grid>
                         </Grid>
+
+                        <Grid container component={Paper} style={{marginTop: "3%"}}>
+                            <Grid item xs={12}>
+                                
+                            </Grid>
+                        </Grid>
                     </Grid>
+
+                    
+
                 </Grid>
             </div>
         )
     }
+
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import cookie from 'react-cookies';
 import { Grid, Button } from '@material-ui/core'
 import { Route, Switch } from 'react-router-dom';
 import AdminEnfermera from './AdminEnfermera';
@@ -12,8 +13,14 @@ export default class Admin extends Component {
         this.state = { 
             
         }
+        this.logout = this.logout.bind(this)
     }
 
+    logout(){
+        cookie.remove('userToken',{path:'/'})
+        console.log(cookie.load('userToken'))
+        this.props.history.push("/")
+    }
     
     render() {
         return (
@@ -28,7 +35,7 @@ export default class Admin extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="submit"
-                                    href = {"/Login"}
+                                    onClick={this.logout}
                                     >
                                     Log Out
                                 </Button>

@@ -38,7 +38,6 @@ export class login extends Component {
     this.handlePassword = this.handlePassword.bind(this);
     this.handleShowPassword = this.handleShowPassword.bind(this);
     this.handleCompany = this.handleCompany.bind(this);
-    console.log(props);
   }
  
 	componentDidMount() {
@@ -86,7 +85,7 @@ export class login extends Component {
       }
 
       Axios
-        .post("http://localhost:8081/login", data, {
+        .post("http://happ2020.herokuapp.com/login", data, {
             headers: {
               'Content-Type':'application/json'
             }
@@ -196,39 +195,6 @@ export class login extends Component {
                   onClick={(e) => this.handleClick(e)}
                 >
                   Sign In
-                </Button>
-
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className="submit"
-                  href = {"/NurseAssistantBoard"}
-                >
-                  Enfermera Auxiliar
-                </Button>
-
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className="submit"
-                  href = {"/Nurse"}
-                >
-                  Enfermera Jefe
-                </Button>
-
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className="submit"
-                  href = {"/Admin"}
-                >
-                  Admin
                 </Button>
                 
                 <Box mt={4}>
