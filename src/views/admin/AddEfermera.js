@@ -121,18 +121,37 @@ export default class AddEfermera extends Component {
         }
 
         if(!this.state.errorNurseName&&!this.state.errorCedula&&!this.state.errorRH&&!this.state.errorType&&!this.state.errorMail){
-            var token = cookie.load('userToken');
-            let nurse = {
-                NurseName: this.state.nurseName,
-                typeDoc: 'c.c.',
-                numDoc: this.state.cedulaNurse,
-                RH: this.state.RHNurse,
-                typeNurse: this.state.typeNurse,
-                mail: this.state.mailNurse
-            } 
+            let user = {
+                active: true,
+                email:this.state.mailNurse,
+                govId: this.state.cedulaNurse,
+                govType: this.state.typeDocument,
+                loginUser: this.state.cedulaNurse,//revisar 
+                password: this.state.cedulaNurse, // revisar
+                rol: "USER"
+            }
             Axios 
-                .post("http://localhost:8081/admin/nurse-and-user",nurse ,{headers:{Authorization: token}})
-                .then(res=>{console.log(res)})          
+                .post("/admin/users",user)
+                .then(res=>{console.log(res)
+                    let nurse = {
+                        name: this.state.nurseName,
+                        position: this.state.typeNurse === "Asistente" ? "asst" : "mngr",
+                        rh: this.state.RHNurse,
+                        user: res.data
+                    }
+                   Axios.post("/admin/nurses",nurse) 
+                   .then(respuesta => {
+                       alert("La enfermera ha sido creada.")
+                       this.setState({
+                            nurseName:'',
+                            cedulaNurse:'',
+                            RHNurse:'',
+                            mailNurse:'',
+                            typeNurse: '',
+                            typeDocument: ''
+                       })
+                   })
+                })          
         }
 
     }
@@ -161,8 +180,8 @@ export default class AddEfermera extends Component {
                                     onChange={this.typeDocumentChange}
                                     >
                                     <option value=""> </option>
-                                    <option value={10}>c.c.</option>
-                                    <option value={20}>c.e.</option>
+                                    <option value={10}>CC</option>
+                                    <option value={20}>CC</option>
                                 </NativeSelect>
                             </FormControl>
                         </Grid>

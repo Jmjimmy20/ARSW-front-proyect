@@ -21,7 +21,8 @@ export default class EditEnfermera extends Component {
             errorMail:false,
             typeDocument:'',
             errorTypeD:false,
-            enfermeras: []
+            enfermeras: [],
+            nurseId:''
         }
     }
 
@@ -32,20 +33,12 @@ export default class EditEnfermera extends Component {
     componentDidMount() {
         var token = cookie.load('userToken');
         //console.log(token);
-        Axios.get('http://localhost:8081/admin/boss-nurses',{headers:{Authorization: token}})
+        Axios.get("/admin/nurses")
         .then(res =>{
           //console.log(res.data)
-            for(const n of res.data){
-                this.state.enfermeras.push(n);
-            }
-        });
-
-        Axios.get('http://localhost:8081/admin/assistant-nurses',{headers:{Authorization: token}})
-        .then(res =>{
-          console.log(res.data)
-            for(const n of res.data){
-                this.state.enfermeras.push(n);
-            }
+            this.setState({
+                enfermeras:res.data
+            })
         });
         console.log(this.state.enfermeras.length);
     }
@@ -56,15 +49,16 @@ export default class EditEnfermera extends Component {
         console.log(event.target.value);
         this.setState((state) => {
             for(const nurse of state.enfermeras){
-                if(nurse.cedulaNurse === idNurse){
+                if(nurse.nurseId === parseInt(idNurse)){
                     console.log(nurse);
                     return({
-                        cedulaNurse: idNurse,
-                        nurseName: nurse.nurseName,
-                        typeDocument: nurse.typeDocument,
-                        RHNurse: nurse.RHNurse,
-                        typeNurse: nurse.typeNurse,
-                        mailNurse: nurse.mailNurse
+                        cedulaNurse: "N/A",
+                        nurseName: nurse.name,
+                        typeDocument: "N/A",
+                        RHNurse: nurse.rh,
+                        typeNurse: nurse.position,
+                        mailNurse: "N/A",
+                        nurseId: nurse.nurseId
                     })
                 }
             }
@@ -165,13 +159,13 @@ export default class EditEnfermera extends Component {
                             <InputLabel id="typeNurseInput">Enfermera</InputLabel>
                             <NativeSelect 
                                 fullWidth
-                                value={this.state.nurseName}
+                                value={this.state.nurseId}
                                 onChange={this.getNurse}
                                 >
                                 <option value=""> </option>
                                 {this.state.enfermeras.map((enfermera, index) => {
                                     return(
-                                        <option key={index} value={enfermera.cedulaNurse}> {enfermera.typeNurse} - {enfermera.nurseName}</option>
+                                        <option key={index} value={enfermera.nurseId}> {enfermera.position} - {enfermera.name}</option>
                                     );
                                 })}
                             </NativeSelect>

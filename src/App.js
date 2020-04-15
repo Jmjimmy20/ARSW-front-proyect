@@ -1,5 +1,6 @@
 import React from 'react';
 import cookie from 'react-cookies';
+import Axios from 'axios';
 import './App.css';
 import { Route, Switch, Router, Redirect, useLocation } from 'react-router-dom';
 import Login from './views/login/Login';
@@ -49,6 +50,7 @@ function routeAuto(){
   var jwtDecode = require('jwt-decode');
   let token = fakeAuth.token;
   if(token){
+    Axios.defaults.headers.common["Authorization"] = token;
     let deco = jwtDecode(token);
     if (deco.jti === "ASSISTANT") 
       return "/NurseAssistantBoard"
@@ -64,7 +66,8 @@ function routeAuto(){
 
 
 function App() {
-  console.log(fakeAuth.verificar())
+  Axios.defaults.baseURL = "https://happ2020.herokuapp.com/"
+
   return (
       <div className="App">
         <Router history={history}>
