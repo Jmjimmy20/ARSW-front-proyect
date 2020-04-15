@@ -85,7 +85,7 @@ export class login extends Component {
       }
 
       Axios
-        .post("http://happ2020.herokuapp.com/login", data, {
+        .post("https://happ2020.herokuapp.com/login", data, {
             headers: {
               'Content-Type':'application/json'
             }
