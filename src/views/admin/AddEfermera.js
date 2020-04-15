@@ -180,8 +180,11 @@ export default class AddEfermera extends Component {
                                     onChange={this.typeDocumentChange}
                                     >
                                     <option value=""> </option>
-                                    <option value={10}>CC</option>
-                                    <option value={20}>CC</option>
+                                    <option value={10}>cc</option>
+                                    <option value={20}>ce</option>
+                                    <option value={30}>ti</option>
+                                    <option value={40}>pa</option>
+                                    <option value={50}>rc</option>
                                 </NativeSelect>
                             </FormControl>
                         </Grid>
