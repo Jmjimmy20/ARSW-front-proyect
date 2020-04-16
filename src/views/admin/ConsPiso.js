@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import cookie from 'react-cookies'
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Typography } from '@material-ui/core'
 import Axios from 'axios'
+import CustomTable from '../CustomTable';
 
 export default class ConsPiso extends Component {
 
@@ -10,9 +11,26 @@ export default class ConsPiso extends Component {
         this.state={
             floorID:'',
             beds:'',
-            pisos:[]
+            rooms:0,
+            pisos:[],
+            rows: '',
+            headCells: '',
+            rows:[]
+
         }
     }
+
+    headCells = [
+        { id: 'IdRoom', label: 'Room' },
+        { id: 'nCamas', label: 'Beds' }
+      ];
+      
+    /*rows = [
+        { id: 'name', name: 'Nicolas', lastname: 'Cardenas' , nCamas: '2'},
+        { id: 'name', name: 'Jimmy', lastname: 'Moya', nCamas: '4' },
+        { id: 'name', name: 'Juan', lastname: 'Mora', nCamas: '6'}
+
+      ];*/
 
     componentDidMount(){
         var token = cookie.load('userToken');
@@ -29,18 +47,20 @@ export default class ConsPiso extends Component {
 
     getFloor = (event) => {
         let floorID = event.target.value;
-        var numFloor = 0;
         //console.log(event.target.value);
         this.setState((state) => {
+            let tempRows = []
             for(const floor of state.pisos){
                 if(floor.blockcode === parseInt(floorID)){
                     for(const room of floor.rooms){
-                        numFloor += room.beds.length
+                        let row = {name:room.roomnumber , IdRoom: room.roomnumber, nCamas: room.beds.length};
+                        tempRows.push(row)
                     }
 
                     return({
                         floorID: floor.blockfloor,
-                        beds: numFloor
+                        rooms : floor.rooms.length,
+                        rows: tempRows
                     })
                 }
             }
@@ -82,8 +102,11 @@ export default class ConsPiso extends Component {
                         </Grid>
                         <Grid item xs={12}>
                             <Typography>
-                                Numero de Camas:  { this.state.beds }
+                                Cantidad de cuartos:  { this.state.rooms }
                             </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Datos Pisos"} />
                         </Grid>
                     </Grid>
                 </Grid>

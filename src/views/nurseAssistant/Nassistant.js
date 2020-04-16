@@ -35,7 +35,7 @@ export default class Nassistant extends Component {
     }
 
     componentDidMount() {
-        // http://localhost:8080/nurses-assistants/1234567
+        console.log(cookie.load('userToken'))
         Axios
             .get("https://raw.githubusercontent.com/Jmjimmy20/testAPI/master/nurseTest")
             .then( res => {
