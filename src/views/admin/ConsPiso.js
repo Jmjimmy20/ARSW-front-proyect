@@ -29,15 +29,20 @@ export default class ConsPiso extends Component {
 
     getFloor = (event) => {
         let floorID = event.target.value;
-        console.log(event.target.value);
+        var numFloor = 0;
+        //console.log(event.target.value);
         this.setState((state) => {
             for(const floor of state.pisos){
-                /*if(pisos.blockcode === parseInt(floorID)){
-                    console.log(floor);
+                if(floor.blockcode === parseInt(floorID)){
+                    for(const room of floor.rooms){
+                        numFloor += room.beds.length
+                    }
+
                     return({
-                        floorID: floor.blockfloor
+                        floorID: floor.blockfloor,
+                        beds: numFloor
                     })
-                }*/
+                }
             }
         })
     }
@@ -57,8 +62,9 @@ export default class ConsPiso extends Component {
                                 >
                                 <option value=""> </option>
                                 {this.state.pisos.map((piso, index) => {
+                                    console.log(piso)
                                     return(
-                                        <option key={index} value={piso.blockcode}> {piso.bloackcode}</option>
+                                        <option key={index} value={piso.blockcode}> {piso.blockcode}</option>
                                     );
                                 })}
                                 

@@ -70,7 +70,7 @@ export default class ConsEnfermera extends Component {
                                 <option value=""> </option>
                                 {this.state.enfermeras.map((enfermera, index) => {
                                     return(
-                                        <option key={index} value={enfermera.nurseId}> {enfermera.position} - {enfermera.name}</option>
+                                    <option key={index} value={enfermera.nurseId}> {enfermera.position} - {enfermera.name} </option>
                                     );
                                 })}
                                 

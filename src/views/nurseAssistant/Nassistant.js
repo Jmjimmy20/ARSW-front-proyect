@@ -1,22 +1,7 @@
-import React, { Component } from 'react'
+import { Button, FormControl, FormHelperText, Grid, InputLabel, NativeSelect, Paper, TableRow, Typography, TableHead, TableCell, Checkbox, TableSortLabel } from '@material-ui/core';
+import Axios from 'axios';
+import React, { Component } from 'react';
 import cookie from 'react-cookies';
-import { 
-    Grid,
-    FormControl,
-    InputLabel,
-    NativeSelect,
-    FormHelperText,
-    Paper,
-    Button,
-    Typography,
-    Table,
-    TableBody,
-    TableHeader,
-    TableHeaderColumn,
-    TableRow,
-    TableRowColumn
- } from '@material-ui/core'
-import Axios from 'axios'
 
 
 export default class Nassistant extends Component {
@@ -31,7 +16,14 @@ export default class Nassistant extends Component {
             nHabitacion:'', 
             nPaciente:'',
             habitaciones:[],
-            pacientes: []
+            pacientes: [],
+            numSelected: '',
+            rowCount: '',
+            rows: [],
+            headCells: [],
+            orderBy:'',
+            order:''
+
         }
         this.logout = this.logout.bind(this)
     }
@@ -91,6 +83,19 @@ export default class Nassistant extends Component {
                 }
             }
         })
+
+    }
+
+    onSelectAllClick = (event) => {
+        if (event.target.checked) {
+          const newSelecteds = this.state.rows.map((n) => n.name);
+          this.setState(newSelecteds);
+          return;
+        }
+        this.setState([]);
+      }
+
+    createSortHandler = (event) =>{
 
     }
 
@@ -213,7 +218,39 @@ export default class Nassistant extends Component {
 
                         <Grid container component={Paper} style={{marginTop: "3%"}}>
                             <Grid item xs={12}>
-                                
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell padding="checkbox">
+                                        <Checkbox
+                                            indeterminate={this.state.numSelected > 0 && this.state.numSelected < this.state.rowCount}
+                                            checked={this.state.rowCount > 0 && this.state.numSelected === this.state.rowCount}
+                                            onChange={this.onSelectAllClick}
+                                            inputProps={{ 'aria-label': 'select all desserts' }}
+                                        />
+                                        </TableCell>
+                                        {this.state.headCells.map((headCell) => (
+                                        <TableCell
+                                            key={headCell.id}   
+                                            align={'center'}
+                                            padding={'default'}
+                                            sortDirection={this.state.orderBy === headCell.id ? this.state.order : false}
+                                        >
+                                            <TableSortLabel
+                                            active={this.state.orderBy === headCell.id}
+                                            direction={this.state.orderBy === headCell.id ? this.state.headCellsorder : 'asc'}
+                                            onClick={this.createSortHandler(headCell.id)}
+                                            >
+                                            {headCell.label}
+                                            {this.state.orderBy === headCell.id ? (
+                                                <span>
+                                                {this.state.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                                </span>
+                                            ) : null}
+                                            </TableSortLabel>
+                                        </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
                             </Grid>
                         </Grid>
                     </Grid>

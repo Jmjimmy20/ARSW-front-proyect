@@ -22,7 +22,8 @@ export default class EditEnfermera extends Component {
             typeDocument:'',
             errorTypeD:false,
             enfermeras: [],
-            nurseId:''
+            nurseId:'',
+            nurseObj:''
         }
     }
 
@@ -58,7 +59,8 @@ export default class EditEnfermera extends Component {
                         RHNurse: nurse.rh,
                         typeNurse: nurse.position,
                         mailNurse: "N/A",
-                        nurseId: nurse.nurseId
+                        nurseId: nurse.nurseId,
+                        nurseObj: nurse
                     })
                 }
             }
@@ -98,31 +100,7 @@ export default class EditEnfermera extends Component {
             })
         }
         //cedula
-        if(this.state.cedulaNurse === '' || this.state.cedulaNurse.length === 0){
-            this.setState({
-                errorCedula:true
-            })
-        }else if(!this.cedulaRegEx.test(this.state.cedulaNurse)){
-            this.setState({
-                errorCedula:true
-            })
-        }
-        //RH
-        if(this.state.RHNurse === '' || this.state.RHNurse.length === 0){
-            this.setState({
-                errorRH:true
-            })
-        }else if(!this.rhRegEx.test(this.state.RHNurse)){
-            this.setState({
-                errorRH:true
-            })
-        }
-        //type
-        if(this.state.typeNurse === '' || this.state.typeNurse.length === 0){
-            this.setState({
-                errorType:true
-            })
-        }
+        
         //mail
         if(this.state.mailNurse === '' || this.state.mailNurse.length === 0){
             this.setState({
@@ -134,17 +112,12 @@ export default class EditEnfermera extends Component {
             })
         }
 
-        if(!this.state.errorNurseName&&!this.state.errorCedula&&!this.state.errorRH&&!this.state.errorType&&!this.state.errorMail){
-            let nurse = {
-                NurseName: this.state.nurseName,
-                typeDoc: 'c.c.',
-                numDoc: this.state.cedulaNurse,
-                RH: this.state.RHNurse,
-                typeNurse: this.state.typeNurse,
-                mail: this.state.mailNurse
-            } 
+        if(!this.state.errorNurseName&&!this.state.errorMail){
+
+            this.state.nurseObj.name = this.state.nurseName
+
             Axios 
-                .post("http://localhost:8081/admin/nurse-and-user",nurse)
+                .put("/admin/nurses",this.state.nurseObj)
                 .then(res=>{console.log(res)})          
         }
 
