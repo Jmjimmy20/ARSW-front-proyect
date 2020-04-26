@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Paper, Button, Typography } from '@material-ui/core'
 import Axios from 'axios'
+import cookie from 'react-cookies';
 
 export default class Nurses extends Component {
 
@@ -16,10 +17,17 @@ export default class Nurses extends Component {
             habitaciones:[],
             pacientes: []
         }
+        this.logout = this.logout.bind(this)
+    }
+
+    logout(){
+        cookie.remove('userToken',{path:'/'})
+        console.log(cookie.load('userToken'))
+        this.props.history.push("/")
     }
 
     componentDidMount() {
-        // http://localhost:8080/nurses-assistants/1234567
+        console.log(cookie.load('userToken'))
         Axios
             .get("https://raw.githubusercontent.com/Jmjimmy20/testAPI/master/nurseTest")
             .then( res => {
@@ -83,7 +91,7 @@ export default class Nurses extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="submit"
-                                    href = {"/Login"}
+                                    onClick ={this.logout}
                                     >
                                     Log Out
                                 </Button>

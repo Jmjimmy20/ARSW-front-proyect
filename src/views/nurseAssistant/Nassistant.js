@@ -1,7 +1,8 @@
-import { Button, FormControl, FormHelperText, Grid, InputLabel, NativeSelect, Paper, TableRow, Typography, TableHead, TableCell, Checkbox, TableSortLabel } from '@material-ui/core';
+import { Button, FormControl, FormHelperText, Grid, InputLabel, NativeSelect, Paper, TableRow, Typography } from '@material-ui/core';
 import Axios from 'axios';
 import React, { Component } from 'react';
 import cookie from 'react-cookies';
+import CustomTable from '../CustomTable';
 
 
 export default class Nassistant extends Component {
@@ -10,8 +11,7 @@ export default class Nassistant extends Component {
         super(props);
         this.state = { 
             nombre: 'Jimmy Moya', 
-            cedula: '1.019.000.000', 
-            fechaN: '00/00/0000', 
+            cedula: '1.019.000.000',
             rh: 'O+', 
             nHabitacion:'', 
             nPaciente:'',
@@ -22,19 +22,35 @@ export default class Nassistant extends Component {
             rows: [],
             headCells: [],
             orderBy:'',
-            order:''
+            order:'',
+            nurseId:'',
+            enfermeras:[],
+            headCells:[],
+            rows:[]
 
         }
         this.logout = this.logout.bind(this)
     }
 
-    logout(){
-        cookie.remove('userToken',{path:'/'})
-        console.log(cookie.load('userToken'))
-        this.props.history.push("/")
-    }
+    headCells = [
+        { id: 'IdProcedure', label: 'Id' },
+        { id: 'nProcedure', label: 'Procedure' }
+      ];
 
     componentDidMount() {
+        var token = cookie.load('userToken');
+        console.log(token);
+        Axios.get("/admin/nurses")
+        .then(res =>{
+            console.log(res.data)
+            this.setState({
+                enfermeras:res.data
+            })
+        });
+        console.log(this.state.enfermeras.length);
+    }
+
+    /*componentDidMount() {
         console.log(cookie.load('userToken'))
         Axios
             .get("https://raw.githubusercontent.com/Jmjimmy20/testAPI/master/nurseTest")
@@ -44,9 +60,44 @@ export default class Nassistant extends Component {
                     habitaciones: res.data.floor.rooms
                 })
             }) 
+    }*/
+
+    logout(){
+        cookie.remove('userToken',{path:'/'})
+        console.log(cookie.load('userToken'))
+        this.props.history.push("/")
+    }
+    
+    getNurse = (event) => {
+        let idNurse = event.target.value;
+        console.log(event.target.value);
+        this.setState((state) => {
+            for(const nurse of state.enfermeras){
+                if(nurse.nurseId === parseInt(idNurse)){
+                    console.log(nurse);
+                    return({
+                        nombre: nurse.name,
+                        cedula: nurse.idDocument,
+                        rh: nurse.rh
+                    })
+                }
+            }
+        })
     }
 
-    load = (id) => {
+    /*componentDidMount() {
+        console.log(cookie.load('userToken'))
+        Axios
+            .get("https://raw.githubusercontent.com/Jmjimmy20/testAPI/master/nurseTest")
+            .then( res => {
+                console.log(res);
+                this.setState({
+                    habitaciones: res.data.floor.rooms
+                })
+            }) 
+    }*/
+
+    /*load = (id) => {
         Axios
             .get("https://raw.githubusercontent.com/Jmjimmy20/testAPI/master/usuarioTestH" + id)
             .then(res => {
@@ -55,7 +106,7 @@ export default class Nassistant extends Component {
                     pacientes: res.data.pacientes
                 })
             })
-    }
+    }*/
 
     
 
@@ -95,18 +146,6 @@ export default class Nassistant extends Component {
         this.setState([]);
       }
 
-    createSortHandler = (event) =>{
-
-    }
-
-    headCells = [
-        { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' },
-        { id: 'calories', numeric: true, disablePadding: false, label: 'Calories' },
-        { id: 'fat', numeric: true, disablePadding: false, label: 'Fat (g)' },
-        { id: 'carbs', numeric: true, disablePadding: false, label: 'Carbs (g)' },
-        { id: 'protein', numeric: true, disablePadding: false, label: 'Protein (g)' },
-    ];
-
 
     render() {
         return (
@@ -139,6 +178,29 @@ export default class Nassistant extends Component {
                             </Grid>
 
                             <Grid container style={{marginBottom: "3%"}}>
+                                <Grid item xs={2}></Grid>
+                                <Grid item xs={6}  component={Paper} style={{ padding: 5 }}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="typeNurseInput">Enfermera</InputLabel>
+                                        <NativeSelect 
+                                            fullWidth
+                                            value={this.state.nurseId}
+                                            onChange={this.getNurse}
+                                            >
+                                            <option value=""> </option>
+                                            {this.state.enfermeras.map((enfermera, index) => {
+                                                return(
+                                                <option key={index} value={enfermera.nurseId}> {enfermera.position} - {enfermera.name} </option>
+                                                );
+                                            })}
+                                            
+                                        </NativeSelect>
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+
+                            <Grid container style={{marginBottom: "3%"}}>
+
                                 <Grid item xs={2}></Grid>
                                     <Grid item xs={6} component={Paper} style={{ padding: 5 }}>
                                     <FormControl fullWidth>
@@ -218,39 +280,7 @@ export default class Nassistant extends Component {
 
                         <Grid container component={Paper} style={{marginTop: "3%"}}>
                             <Grid item xs={12}>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell padding="checkbox">
-                                        <Checkbox
-                                            indeterminate={this.state.numSelected > 0 && this.state.numSelected < this.state.rowCount}
-                                            checked={this.state.rowCount > 0 && this.state.numSelected === this.state.rowCount}
-                                            onChange={this.onSelectAllClick}
-                                            inputProps={{ 'aria-label': 'select all desserts' }}
-                                        />
-                                        </TableCell>
-                                        {this.state.headCells.map((headCell) => (
-                                        <TableCell
-                                            key={headCell.id}   
-                                            align={'center'}
-                                            padding={'default'}
-                                            sortDirection={this.state.orderBy === headCell.id ? this.state.order : false}
-                                        >
-                                            <TableSortLabel
-                                            active={this.state.orderBy === headCell.id}
-                                            direction={this.state.orderBy === headCell.id ? this.state.headCellsorder : 'asc'}
-                                            onClick={this.createSortHandler(headCell.id)}
-                                            >
-                                            {headCell.label}
-                                            {this.state.orderBy === headCell.id ? (
-                                                <span>
-                                                {this.state.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                                </span>
-                                            ) : null}
-                                            </TableSortLabel>
-                                        </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
+                                <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Procedures"} />
                             </Grid>
                         </Grid>
                     </Grid>
