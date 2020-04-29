@@ -10,9 +10,11 @@ export default class Nassistant extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            nombre: 'Jimmy Moya', 
-            cedula: '1.019.000.000',
-            rh: 'O+', 
+            nombre: '', 
+            cedula: '',
+            docType:'',
+            genero:'',
+            rh: '', 
             nHabitacion:'', 
             nPaciente:'',
             habitaciones:[],
@@ -40,7 +42,7 @@ export default class Nassistant extends Component {
     componentDidMount() {
         var token = cookie.load('userToken');
         console.log(token);
-        Axios.get("/admin/nurses")
+        Axios.get("/assistant-nurse/nurses")
         .then(res =>{
             console.log(res.data)
             this.setState({
@@ -48,19 +50,13 @@ export default class Nassistant extends Component {
             })
         });
         console.log(this.state.enfermeras.length);
+        Axios.get("/assistant-nurse/patients")
+        .then(res => {
+            this.setState({
+                pacientes:res.data
+            })
+        });
     }
-
-    /*componentDidMount() {
-        console.log(cookie.load('userToken'))
-        Axios
-            .get("https://raw.githubusercontent.com/Jmjimmy20/testAPI/master/nurseTest")
-            .then( res => {
-                console.log(res);
-                this.setState({
-                    habitaciones: res.data.floor.rooms
-                })
-            }) 
-    }*/
 
     logout(){
         cookie.remove('userToken',{path:'/'})
@@ -76,39 +72,13 @@ export default class Nassistant extends Component {
                 if(nurse.nurseId === parseInt(idNurse)){
                     console.log(nurse);
                     return({
-                        nombre: nurse.name,
-                        cedula: nurse.idDocument,
-                        rh: nurse.rh
+                        nurseId: nurse.nurseId
                     })
                 }
             }
         })
     }
 
-    /*componentDidMount() {
-        console.log(cookie.load('userToken'))
-        Axios
-            .get("https://raw.githubusercontent.com/Jmjimmy20/testAPI/master/nurseTest")
-            .then( res => {
-                console.log(res);
-                this.setState({
-                    habitaciones: res.data.floor.rooms
-                })
-            }) 
-    }*/
-
-    /*load = (id) => {
-        Axios
-            .get("https://raw.githubusercontent.com/Jmjimmy20/testAPI/master/usuarioTestH" + id)
-            .then(res => {
-                console.log(res);
-                this.setState({
-                    pacientes: res.data.pacientes
-                })
-            })
-    }*/
-
-    
 
     roomChange = (event) => {
         // console.log(event.target.value);
@@ -122,14 +92,15 @@ export default class Nassistant extends Component {
         console.log(event.target.value);
         this.setState((state) => {
             for (const paciente of state.pacientes) {
-                if (paciente.idDocument === idPacient) {
+                if (paciente.patientId === parseInt(idPacient)) {
                     console.log(paciente);
                     return ({
-                        nPaciente: idPacient,
                         nombre: paciente.name,
-                        cedula: paciente.idDocument,
-                        fechaN: paciente.birthDay,
-                        rh: paciente.rh
+                        docType: paciente.govType,
+                        cedula: paciente.govId,
+                        rh: paciente.rh,
+                        genero: paciente.gender,
+                        nPaciente: paciente.patientId
                     })
                 }
             }
@@ -242,7 +213,7 @@ export default class Nassistant extends Component {
                                         >   <option value="" />
                                             {this.state.pacientes.map((paciente, index) =>{
                                                 return(
-                                                    <option key={index} value={paciente.idDocument}>{paciente.idDocument} - {paciente.name}</option>
+                                                    <option key={index} value={paciente.patientId}>{paciente.patientId} - {paciente.name}</option>
                                                 );
                                             })}
                                         </NativeSelect>
@@ -263,17 +234,22 @@ export default class Nassistant extends Component {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
+                                    Tipo de documento:  { this.state.docType }
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography>
                                     Cedula:  { this.state.cedula }
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    Fecha de Nacimiento:  { this.state.fechaN }
+                                    RH:  { this.state.rh }
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    RH:  { this.state.rh }
+                                    Genero:  { this.state.genero }
                                 </Typography>
                             </Grid>
                         </Grid>
