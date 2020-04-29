@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import cookie from 'react-cookies'
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Typography } from '@material-ui/core'
 import Axios from 'axios'
-import CustomTable from '../CustomTable';
+import CustomTable from '../CustomTablex';
 
 export default class ConsPiso extends Component {
 

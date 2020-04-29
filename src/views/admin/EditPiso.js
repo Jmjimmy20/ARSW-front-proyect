@@ -9,21 +9,12 @@ export default class EditPiso extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            nurseName:'',
-            cedulaNurse:'',
-            RHNurse:'',
-            typeNurse: '',
-            mailNurse:'',
-            errorNurseName:false,
-            errorCedula:false,
-            errorRH:false,
-            errorType:false,
-            errorMail:false,
-            typeDocument:'',
-            errorTypeD:false,
             floorID:'',
             beds:'',
-            pisos:[]
+            pisos:[],
+            cuartos:[],
+            nCuarto:'',
+            available: ''
         }
     }
 
@@ -47,17 +38,60 @@ export default class EditPiso extends Component {
         this.setState((state) => {
             for(const floor of state.pisos){
                 if(floor.blockcode === parseInt(floorID)){
-                    for(const room of floor.rooms){
-                        numFloor += room.beds.length
-                    }
-
-                    return({
-                        floorID: floor.blockfloor,
-                        beds: numFloor
-                    })
+                    return {cuartos: floor.rooms, floorID: floor.blockcode }
+                    
                 }
             }
         })
+    }
+
+    getRooms = (event) => {
+        let roomID = event.target.value;
+        this.setState((state) => {
+            for(const room of state.cuartos){
+                if(room.roomnumber === parseInt(roomID)){
+                    return { available: room.unavailable, nCuarto: room.roomnumber }
+                }
+            }
+        })
+    }
+
+    getState = (event) => {
+        this.setState({
+            available: event.target.value
+        })
+    }
+
+    updateFloor = (event) => {
+        let tempFloor;
+        for(const floor of this.state.pisos){
+            if(floor.blockcode === parseInt(this.state.floorID)){
+                tempFloor = floor;
+                let i = 0;
+                for(const room of this.state.cuartos){
+                    if(room.roomnumber === parseInt(this.state.nCuarto)){
+                        tempFloor.rooms[i].unavailable = this.state.available;
+                    }
+                    i++;
+                }
+                
+            }
+        }
+        Axios
+            .put("/admin/blocks", tempFloor)
+            .then(resPost => {
+                console.log(resPost.data);
+                this.setState({
+                    floorID:'',
+                    beds:'',
+                    pisos:[],
+                    cuartos:[],
+                    nCuarto:'',
+                    available: ''
+                });
+                
+            })
+
     }
 
     
@@ -66,7 +100,7 @@ export default class EditPiso extends Component {
             <div>
                 <Grid container spacing={3}>
 
-                <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
+                    <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
                         <FormControl fullWidth error={this.state.errorType}>
                             <InputLabel id="typeNurseInput">Pisos</InputLabel>
                             <NativeSelect 
@@ -86,33 +120,43 @@ export default class EditPiso extends Component {
                         </FormControl>
                     </Grid>
 
-
                     <Grid container component={Paper}>
                         <Grid item xs={12} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
-                            <TextField fullWidth
-                                value={this.state.nurseName}
-                                onChange={this.nameNurseChange}
-                                error={this.state.errorNurseName}
-                                id="NurseNameInput" 
-                                label="Numero de Cuartos" 
-                                type="search" 
-                            />
+                            <FormControl fullWidth error={this.state.errorType}>
+                                <InputLabel id="typeNurseInput">Cuarto</InputLabel>
+                                <NativeSelect 
+                                    fullWidth
+                                    value={this.state.nCuarto}
+                                    onChange={this.getRooms}
+                                    >
+                                    <option value=""> </option>
+                                    {this.state.cuartos.map((piso, index) => {
+                                        console.log(piso)
+                                        return(
+                                            <option key={index} value={piso.roomnumber}> {piso.roomnumber}</option>
+                                        );
+                                    })}
+                                    
+                                </NativeSelect>
+                            </FormControl>
                         </Grid>
 
                         <Grid item xs={12} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
-                            <TextField fullWidth
-                                value={this.state.nurseName}
-                                onChange={this.nameNurseChange}
-                                error={this.state.errorNurseName}
-                                id="NurseNameInput" 
-                                label="Numero de camas" 
-                                type="search" 
-                            />
+                            <FormControl fullWidth error={this.state.errorType}>
+                                <InputLabel id="typeNurseInput">Estado</InputLabel>
+                                <NativeSelect 
+                                    fullWidth
+                                    value={this.state.available}
+                                    onChange={this.getState}
+                                    >
+                                    <option value=""> </option>
+                                    <option value={'true'}>Habilitado</option>
+                                    <option value={'false'}>Deshabilitado</option>
+                                    
+                                </NativeSelect>
+                            </FormControl>
                         </Grid>
 
-                        <Grid item xs={12} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
-                            
-                        </Grid>
                         <Grid item xs={4}></Grid>
                         <Grid item xs={4}>
 
@@ -122,7 +166,7 @@ export default class EditPiso extends Component {
                                 variant="contained"
                                 color="primary"
                                 className="submit"
-                                onClick = {this.createNurse}
+                                onClick = {this.updateFloor}
                                 >
                                 Agregar
                             </Button>
