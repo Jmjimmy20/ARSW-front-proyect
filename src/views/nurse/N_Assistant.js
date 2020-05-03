@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Button } from '@material-ui/core'
 import { Route, Switch } from 'react-router-dom';
-import AddEfermera from '../admin/AddEfermera';
-import EditEnfermera from '../admin/EditEnfermera';
-import ConsEnfermera from '../admin/ConsEnfermera';
+import E_Assistant from './E_Assistant';
 
 export default class N_Assistant extends Component {
 
@@ -38,50 +36,20 @@ export default class N_Assistant extends Component {
                                 variant="contained"
                                 color="primary"
                                 className="submit"
-                                href = {"/Admin/Nurse/add"}
+                                href = {"/Admin/nurse/E_Assistant"}
                                 >
                                 Asignar Enfermera
                             </Button>
                         </Grid>
-
-                        <Grid item xs={3}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="submit"
-                                href = {"/Admin/Nurse/modify"}
-                                >
-                                Asignar Paciente 
-                            </Button>
-                        </Grid>
                         
-                        <Grid item xs={3}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="submit"
-                                href = {"/Admin/Nurse/consult"}
-                                >
-                                ---- 
-                            </Button>
-                        </Grid>
+                        
                     </Grid>
 
 
                     <Grid item xs={6}>
                         <Switch>
-                            <Route path="/Admin/Nurse/add">
-                                <AddEfermera/>
-                            </Route>
-                            <Route path="/Admin/Nurse/modify">
-                                <EditEnfermera/>
-                            </Route>
-                            <Route path="/Admin/Nurse/consult">
-                                <ConsEnfermera/>
+                            <Route path="/Admin/nurse/E_Assistant">
+                                <E_Assistant/>
                             </Route>
                         </Switch>
                     </Grid>

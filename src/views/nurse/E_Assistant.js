@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
 import Axios from 'axios'
 
-export default class EditEnfermera extends Component {
+export default class E_Assistant extends Component {
 
     constructor(props) {
         super(props);
@@ -23,8 +23,7 @@ export default class EditEnfermera extends Component {
             errorTypeD:false,
             enfermeras: [],
             nurseId:'',
-            nurseObj:'',
-            usuarioEnf: ''
+            nurseObj:''
         }
     }
 
@@ -48,27 +47,24 @@ export default class EditEnfermera extends Component {
 
     getNurse = (event) => {
         let idNurse = event.target.value;
-        for(const nurse of this.state.enfermeras){
-            if(nurse.nurseId === parseInt(idNurse)){
-                Axios.get("/admin/users/nurse/" + nurse.nurseId)
-                .then(res => {
-                    var usuario = res.data;
-                    this.setState({
-                        usuarioEnf: usuario,
-                        cedulaNurse: res.data.govId,
+        console.log(event.target.value);
+        this.setState((state) => {
+            for(const nurse of state.enfermeras){
+                if(nurse.nurseId === parseInt(idNurse)){
+                    console.log(nurse);
+                    return({
+                        cedulaNurse: "N/A",
                         nurseName: nurse.name,
-                        typeDocument: res.data.govType,
+                        typeDocument: "N/A",
                         RHNurse: nurse.rh,
                         typeNurse: nurse.position,
-                        mailNurse: res.data.email,
+                        mailNurse: "N/A",
                         nurseId: nurse.nurseId,
-                        nurseObj:nurse
+                        nurseObj: nurse
                     })
-
-                })
-                
+                }
             }
-        }
+        })
     }
     nameNurseChange = (event) =>{
         this.setState({
@@ -86,7 +82,6 @@ export default class EditEnfermera extends Component {
         })
     }
     mailNurseChange = (event) =>{
-
         this.setState({
             mailNurse: event.target.value, errorMail:false
         })
@@ -94,7 +89,6 @@ export default class EditEnfermera extends Component {
 
     createNurse = (event) =>{
         event.preventDefault();
-        let userAux = this.state.usuarioEnf;
         //nombre
         if(this.state.nurseName === '' || this.state.nurseName.length === 0){
             this.setState({
@@ -105,6 +99,7 @@ export default class EditEnfermera extends Component {
                 errorNurseName:true
             })
         }
+        //cedula
         
         //mail
         if(this.state.mailNurse === '' || this.state.mailNurse.length === 0){
@@ -119,30 +114,11 @@ export default class EditEnfermera extends Component {
 
         if(!this.state.errorNurseName&&!this.state.errorMail){
 
-            console.log(this.state.nurseObj)
-            console.log(this.state.usuarioEnf)
             this.state.nurseObj.name = this.state.nurseName
-            this.state.usuarioEnf.email = this.state.mailNurse
-            var id = this.state.nurseObj.nurseId
-            Axios
-                .put("/admin/users", this.state.usuarioEnf)
-                .then(res =>{console.log(res)})
 
             Axios 
                 .put("/admin/nurses",this.state.nurseObj)
-                .then(res=>{
-                    this.setState({
-                        nurseName:'',
-                        mailNurse:'',
-                        enfermeras: [],
-                        nurseId:'',
-                        nurseObj:'',
-                        usuarioEnf: ''
-                    })
-                    
-                })       
-                
-
+                .then(res=>{console.log(res)})          
         }
 
     }

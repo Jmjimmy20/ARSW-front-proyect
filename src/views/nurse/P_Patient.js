@@ -3,7 +3,7 @@ import cookie from 'react-cookies'
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Typography } from '@material-ui/core'
 import Axios from 'axios'
 
-export default class ConsEnfermera extends Component {
+export default class P_Patient extends Component {
     constructor(props) {
         super(props);
         this.state = { 

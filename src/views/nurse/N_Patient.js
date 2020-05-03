@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Grid, Button } from '@material-ui/core'
 import { Route, Switch } from 'react-router-dom';
-import AddPiso from '../admin/AddPiso';
-import EditPiso from '../admin/EditPiso';
-import ConsPiso from '../admin/ConsPiso';
+import C_Patient from './C_Patient';
+import A_Patient from './A_Patient';
+import P_Patient from './P_Patient';
 
 export default class N_Patient extends Component {
 
@@ -37,7 +37,7 @@ export default class N_Patient extends Component {
                                 variant="contained"
                                 color="primary"
                                 className="submit"
-                                href = {"/Admin/Piso/add"}
+                                href = {"/Nurse/Patient/Consultar"}
                                 >
                                 Consultar Paciente
                             </Button>
@@ -50,7 +50,7 @@ export default class N_Patient extends Component {
                                 variant="contained"
                                 color="primary"
                                 className="submit"
-                                href = {"/Admin/Piso/modify"}
+                                href = {"/Nurse/Patient/Asignar"}
                                 >
                                 Asignar Proceso
                             </Button>
@@ -63,9 +63,9 @@ export default class N_Patient extends Component {
                                 variant="contained"
                                 color="primary"
                                 className="submit"
-                                href = {"/Admin/Piso/consult"}
+                                href = {"/Nurse/Patient/Piso"}
                                 >
-                                ---- 
+                                Cambio de piso 
                             </Button>
                         </Grid>
                     </Grid>
@@ -73,14 +73,18 @@ export default class N_Patient extends Component {
 
                     <Grid item xs={6}>
                         <Switch>
-                            <Route path="/Admin/Piso/add">
-                                <AddPiso/>
+                            <Route path="/Nurse/Patient/Consultar">
+                                <C_Patient/>
                             </Route>
-                            <Route path="/Admin/Piso/modify">
-                                <EditPiso/>
+                        </Switch>
+                        <Switch>
+                            <Route path="/Nurse/Patient/Asignar">
+                                <A_Patient/>
                             </Route>
-                            <Route path="/Admin/Piso/consult">
-                                <ConsPiso/>
+                        </Switch>
+                        <Switch>
+                            <Route path="/Nurse/Patient/Piso">
+                                <P_Patient/>
                             </Route>
                         </Switch>
                     </Grid>
