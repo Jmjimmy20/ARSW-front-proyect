@@ -71,9 +71,9 @@ export default class N_Patient extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="submit"
-                                    href={"/Nurse/Patient/Piso"}
+                                    href={"/Nurse/Patient/Modify"}
                                 >
-                                    Cambio de piso
+                                    Modificar Paciente
                                 </Button>
                             </Grid>
                         </Grid>  
@@ -92,7 +92,7 @@ export default class N_Patient extends Component {
                             </Route>
                         </Switch>
                         <Switch>
-                            <Route path="/Nurse/Patient/Piso">
+                            <Route path="/Nurse/Patient/Modify">
                                 <PPatient/>
                             </Route>
                         </Switch>

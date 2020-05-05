@@ -19,20 +19,20 @@ export default class AsignarCuarto extends Component {
         });
     }
 
-    roomChange = (event, i) => {
+    roomChange = (event) => {
         this.setState({
             numCuarto: event.target.value
         });
     }
 
-    bedChange = (event, i) => {
+    bedChange = (event) => {
         this.setState({
             numCama: event.target.value
         });
     }
 
-    addRoom=(event)=>{
-
+    assign = (event) => {
+        event.preventDefault();
     }
 
 
@@ -88,9 +88,9 @@ export default class AsignarCuarto extends Component {
                         variant="contained"
                         color="primary"
                         className="submit"
-                        onClick = {this.addRoom}
+                        onClick = {this.assign}
                         >
-                        Agregar
+                        Asignar
                     </Button>
                 </Grid>
             </div>

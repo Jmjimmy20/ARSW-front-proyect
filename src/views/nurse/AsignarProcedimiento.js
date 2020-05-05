@@ -2,6 +2,7 @@ import MomentUtils from '@date-io/moment';
 import { FormControl, InputLabel, NativeSelect, Grid, TextField, Button, Typography } from '@material-ui/core';
 import { DatePicker, MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
 import React, { Component } from 'react';
+import Axios from 'axios'
 
 class AsignarProcedimiento extends Component {
 
@@ -11,13 +12,40 @@ class AsignarProcedimiento extends Component {
       selectedDate: new Date(),
       selectedTime: new Date(),
       procedure: '',
+      procedureId: '',
+      procedures: [],
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem velit, rhoncus at augue nec, aliquam mattis sapien. Donec eu libero ut magna vehicula vehicula in sit amet nisl. Ut tincidunt ante sed pharetra consequat. Integer quis nisl neque. Suspendisse accumsan nisi vitae nisl tempor, scelerisque tempor justo commodo. Mauris volutpat mi a facilisis dapibus. Praesent non sagittis quam. Vestibulum molestie ex eu est eleifend, eget egestas est sodales. Duis vitae ligula vitae ligula blandit tincidunt a et sapien. Maecenas eu leo sit amet magna blandit elementum eu non velit. Nam cursus nisi ac orci bibendum, sed varius nisl rhoncus. Suspendisse ac blandit mi. Sed ultrices consectetur tortor vel porttitor. Vestibulum non augue lobortis, mollis nunc ut, ullamcorper nisl. Integer magna sapien, commodo ut suscipit eu, sodales eu lacus."
     }
+  }
+
+  componentDidMount() {
+    Axios
+    .get('/nurse/procedures')
+    .then(res => {
+      this.setState({ procedures: res.data });
+    });
   }
   
   handleChangeProcedure = (event) => {
     //console.log(event);
-    this.setState({ procedure: event.target.value });
+    let value = event.target.value
+    this.setState((state) => {
+      for (const procedure of state.procedures) {
+        console.log(procedure, value);
+        if (procedure.procedureId === parseInt(value)) {
+          return {
+            procedure: value,
+            procedureId: procedure.name,
+            description: procedure.description
+          }
+        }
+      }
+    });
+  }
+
+  handleChangeProcedureID = (event) => {
+    //console.log(event);
+    this.setState({ procedureId: event.target.value });
   }
 
   handleDateChange = (event) => {
@@ -30,12 +58,23 @@ class AsignarProcedimiento extends Component {
     this.setState({ selectedTime: event });
   }
 
+  search = () => {
+    if (this.state.procedureId !== '') {
+      for (const procedure of this.state.procedures) {
+        if (procedure.name === this.state.procedureId) {
+          console.log(procedure);
+          this.setState({ procedure: procedure.procedureId, description: procedure.description });
+        }
+      }
+    }
+  }
+
   render() {
     return (
       <div>
         <Grid container>
           <Grid item xs={12} > 
-            <Typography>
+            <Typography variant={"h6"}>
               Escoja el procedimient
             </Typography>
             
@@ -47,9 +86,11 @@ class AsignarProcedimiento extends Component {
                 onChange={this.handleChangeProcedure}
               >
                 <option value=""> </option>
-                <option value={'private room'}>private room</option>
-                <option value={'semi-private'}>semi-private</option>
-                <option value={'shared room'}>shared room</option>
+                {this.state.procedures.map((procedure) => {
+                  return (
+                    <option key={procedure.procedureId} value={procedure.procedureId}> {procedure.name} - {procedure.description}</option>
+                  )
+                })}
               </NativeSelect>
             </FormControl>
           </Grid>
@@ -58,7 +99,7 @@ class AsignarProcedimiento extends Component {
             <Grid container>
               <Grid item xs={12}>
                 <div style={{marginTop: "3%"}}>
-                  <Typography>
+                  <Typography variant={"h6"}>
                     Agregar mediante código
                   </Typography>
                 </div>
@@ -67,10 +108,10 @@ class AsignarProcedimiento extends Component {
             <Grid container>
               <Grid item xs={6} style={{paddingTop: "2%"}}>
                 <TextField fullWidth
-                  value={this.state.numCuarto}
-                  onChange={(e) => this.roomChange(e)}
-                  id="numCuarto"
-                  label={"Numero de Cuarto"}
+                  value={this.state.procedureId}
+                  onChange={this.handleChangeProcedureID}
+                  id="procedureId"
+                  label={"Codigo del Procedimiento"}
                   type="search"
                 />
               </Grid>
@@ -82,9 +123,9 @@ class AsignarProcedimiento extends Component {
                   variant="contained"
                   color="primary"
                   className="submit"
-                  onClick={this.addRoom}
+                  onClick={this.search}
                 >
-                  Agregar
+                  Buscar
                 </Button>
               </Grid>
             </Grid>
@@ -104,8 +145,8 @@ class AsignarProcedimiento extends Component {
                     views={["year", "month", "date"]}
                     cancelLabel={"Cancelar"}
                     okLabel={"Aceptar"}
-                  //todayLabel={"Hoy"}
-                  //showTodayButton
+                    todayLabel={"Hoy"}
+                    showTodayButton
                   />
                 </Grid>
                 <Grid item xs={1} ></Grid>
@@ -124,7 +165,7 @@ class AsignarProcedimiento extends Component {
           </Grid>
 
           <Grid item xs={12} >
-            <Typography variant={"h4"} style={{ marginTop: 16, marginBottom: 16 }}>
+            <Typography variant={"h6"} style={{ marginTop: 16, marginBottom: 16 }}>
               {"Descripción"}
             </Typography>
             <Typography variant={"body1"} paragraph>

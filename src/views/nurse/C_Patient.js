@@ -129,7 +129,7 @@ export default class C_Patient extends Component {
                     </Grid>
 
                     <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
-                            <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Procedimientos"} />
+                        <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Procedimientos"} />
                     </Grid>
                 </Grid>
             </div>
