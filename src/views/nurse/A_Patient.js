@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import cookie from 'react-cookies'
-import { Grid, FormControl, InputLabel, NativeSelect, Paper, Typography } from '@material-ui/core'
+import { Grid, FormControl, InputLabel, NativeSelect, Paper, Typography, Button } from '@material-ui/core'
 import Axios from 'axios'
+import AsignarCuarto from './AsignarCuarto';
 
 export default class A_Patient extends Component {
     constructor(props) {
@@ -15,7 +16,8 @@ export default class A_Patient extends Component {
             P_idDoc:'',
             P_idType:'',
             P_telefono:'',
-            P_rh:''
+            P_rh:'',
+            vistaSelect:''
 
         }
     }
@@ -57,6 +59,22 @@ export default class A_Patient extends Component {
             }
         }
     }
+
+    selectButton = (event, value) => {
+        event.preventDefault();
+        this.setState ({
+            vistaSelect:value
+        })
+    }
+
+    vistaRender = ()=>{
+        if(this.state.vistaSelect === "cuarto")
+            return <AsignarCuarto/>
+        else if(this.state.vistaSelect === "procedimiento")
+            return <AsignarCuarto/>
+        else
+            return ""
+    }
     
 
     render() {
@@ -85,7 +103,37 @@ export default class A_Patient extends Component {
                     </Grid>
 
                     <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
-                        
+                        <Grid item xs={12} style={{ padding: 3 }}>
+                            <Grid container spacing={3}>
+                                <Grid item xs={6}>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className="submit"
+                                        onClick={(e)=>this.selectButton(e,"cuarto")}
+                                        >
+                                        Asignar Cuarto
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className="submit"
+                                        onClick={(e)=>this.selectButton(e,"procedimiento")}
+                                        >
+                                        Asignar Procedimiento
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={12}>
+                            {this.vistaRender()}
+                        </Grid>
                     </Grid>
                 </Grid>
             </div>
