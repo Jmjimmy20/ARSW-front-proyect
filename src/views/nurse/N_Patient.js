@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { Grid, Button } from '@material-ui/core'
 import { Route, Switch } from 'react-router-dom';
-import C_Patient from './C_Patient';
-import A_Patient from './A_Patient';
-import P_Patient from './P_Patient';
+import CPatient from './C_Patient';
+import APatient from './A_Patient';
+import PPatient from './P_Patient';
 
 export default class N_Patient extends Component {
 
@@ -29,62 +29,71 @@ export default class N_Patient extends Component {
         return (
             <div>                
                 <Grid container>
-                    <Grid item xs={6} style={{paddingLeft:"2%"}}>
-                        <Grid item xs={3}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="submit"
-                                href = {"/Nurse/Patient/Consultar"}
-                                >
-                                Consultar Paciente
-                            </Button>
+                    <Grid item xs={4}>
+                        <Grid container>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    href = {"/Nurse/Patient/Consultar"}
+                                    >
+                                    Consultar Paciente
+                                </Button>
+                            </Grid>
                         </Grid>
 
-                        <Grid item xs={3}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="submit"
-                                href = {"/Nurse/Patient/Asignar"}
+                        <Grid container>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    href={"/Nurse/Patient/Asignar"}
                                 >
-                                Asignar Proceso
-                            </Button>
+                                    Asignar Proceso
+                                </Button>
+                            </Grid>
                         </Grid>
-                        
-                        <Grid item xs={3}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="submit"
-                                href = {"/Nurse/Patient/Piso"}
+
+                        <Grid container>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    href={"/Nurse/Patient/Piso"}
                                 >
-                                Cambio de piso 
-                            </Button>
-                        </Grid>
+                                    Cambio de piso
+                                </Button>
+                            </Grid>
+                        </Grid>  
                     </Grid>
 
 
-                    <Grid item xs={6}>
+                    <Grid item xs={8}>
                         <Switch>
                             <Route path="/Nurse/Patient/Consultar">
-                                <C_Patient/>
+                                <CPatient/>
                             </Route>
                         </Switch>
                         <Switch>
                             <Route path="/Nurse/Patient/Asignar">
-                                <A_Patient/>
+                                <APatient/>
                             </Route>
                         </Switch>
                         <Switch>
                             <Route path="/Nurse/Patient/Piso">
-                                <P_Patient/>
+                                <PPatient/>
                             </Route>
                         </Switch>
                     </Grid>

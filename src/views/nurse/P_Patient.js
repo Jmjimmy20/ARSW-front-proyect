@@ -63,8 +63,8 @@ export default class P_Patient extends Component {
     render() {
         return (
             <div>
-                <Grid container spacing={3}>
-                    <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
+                <Grid container>
+                    <Grid item xs={12}  component={Paper}>
                         <FormControl fullWidth error={this.state.errorType}>
                             <InputLabel id="typeNurseInput">Enfermera</InputLabel>
                             <NativeSelect 
@@ -82,10 +82,8 @@ export default class P_Patient extends Component {
                             </NativeSelect>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} style={{ paddingBottom:'10%'}}>
-                    </Grid>
 
-                    <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
+                    <Grid item xs={12}  component={Paper} >
                         <Grid item xs={12}>
                             <Typography>
                                 Nombre:  { this.state.nurseName }

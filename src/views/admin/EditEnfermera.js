@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import cookie from 'react-cookies'
+//import cookie from 'react-cookies'
 import TextField from '@material-ui/core/TextField';
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
 import Axios from 'axios'
+import update from 'immutability-helper';
 
 export default class EditEnfermera extends Component {
 
@@ -14,13 +15,13 @@ export default class EditEnfermera extends Component {
             RHNurse:'',
             typeNurse: '',
             mailNurse:'',
-            errorNurseName:false,
-            errorCedula:false,
-            errorRH:false,
-            errorType:false,
-            errorMail:false,
+            errorNurseName: false,
+            errorCedula: false,
+            errorRH: false,
+            errorType: false,
+            errorMail: false,
             typeDocument:'',
-            errorTypeD:false,
+            errorTypeD: false,
             enfermeras: [],
             nurseId:'',
             nurseObj:'',
@@ -33,7 +34,7 @@ export default class EditEnfermera extends Component {
     mailRegEx =/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
 
     componentDidMount() {
-        var token = cookie.load('userToken');
+        //var token = cookie.load('userToken');
         //console.log(token);
         Axios.get("/admin/nurses")
         .then(res =>{
@@ -94,7 +95,6 @@ export default class EditEnfermera extends Component {
 
     createNurse = (event) =>{
         event.preventDefault();
-        let userAux = this.state.usuarioEnf;
         //nombre
         if(this.state.nurseName === '' || this.state.nurseName.length === 0){
             this.setState({
@@ -119,18 +119,22 @@ export default class EditEnfermera extends Component {
 
         if(!this.state.errorNurseName&&!this.state.errorMail){
 
-            console.log(this.state.nurseObj)
-            console.log(this.state.usuarioEnf)
-            this.state.nurseObj.name = this.state.nurseName
-            this.state.usuarioEnf.email = this.state.mailNurse
-            var id = this.state.nurseObj.nurseId
+            /* console.log(this.state.nurseObj)
+            console.log(this.state.usuarioEnf) */
+            this.setState((state) => {
+                return {
+                    nurseObj: update(state.nurseObj, { "name": { $set: state.nurseName }}),
+                    usuarioEnf: update(state.usuarioEnf, { "email": { $set: state.mailNurse }})
+                }
+            })
+
             Axios
                 .put("/admin/users", this.state.usuarioEnf)
-                .then(res =>{console.log(res)})
+                .then(res => { console.log(res) });
 
             Axios 
                 .put("/admin/nurses",this.state.nurseObj)
-                .then(res=>{
+                .then(res => {
                     this.setState({
                         nurseName:'',
                         mailNurse:'',
@@ -138,11 +142,9 @@ export default class EditEnfermera extends Component {
                         nurseId:'',
                         nurseObj:'',
                         usuarioEnf: ''
-                    })
+                    });
                     
-                })       
-                
-
+                });
         }
 
     }

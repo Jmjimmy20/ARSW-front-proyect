@@ -68,8 +68,8 @@ export default class C_Patient extends Component {
     render() {
         return (
             <div>
-                <Grid container spacing={3}>
-                    <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
+                <Grid container>
+                    <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
                         <FormControl fullWidth error={this.state.errorType}>
                             <InputLabel id="typeNurseInput">Paciente</InputLabel>
                             <NativeSelect 
@@ -87,51 +87,51 @@ export default class C_Patient extends Component {
                             </NativeSelect>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} style={{ paddingBottom:'10%'}}>
+
+                    <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
+                        <Grid container>
+                            <Grid item xs={12}>
+                                <Typography>
+                                    Nombre:  { this.state.P_name }
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography>
+                                    Tipo de documento:  { this.state.P_idType }
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography>
+                                    Cedula:  { this.state.P_idDoc }
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography>
+                                    RH:  { this.state.P_rh }
+                                </Typography>
+                            </Grid>    
+                            <Grid item xs={12}>
+                                <Typography>
+                                    Dirección:  { this.state.P_direccion }
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography>
+                                    Genero:  { this.state.P_genero }
+                                </Typography>
+                            </Grid> 
+                            <Grid item xs={12}>
+                                <Typography>
+                                    Telefono:  { this.state.P_telefono }
+                                </Typography>
+                            </Grid> 
+                        </Grid>
                     </Grid>
 
-                    <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
-                        <Grid item xs={12}>
-                            <Typography>
-                                Nombre:  { this.state.P_name }
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography>
-                                Tipo de documento:  { this.state.P_idType }
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography>
-                                Cedula:  { this.state.P_idDoc }
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography>
-                                RH:  { this.state.P_rh }
-                            </Typography>
-                        </Grid>    
-                        <Grid item xs={12}>
-                            <Typography>
-                                Dirección:  { this.state.P_direccion }
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography>
-                                Genero:  { this.state.P_genero }
-                            </Typography>
-                        </Grid> 
-                        <Grid item xs={12}>
-                            <Typography>
-                                Telefono:  { this.state.P_telefono }
-                            </Typography>
-                        </Grid> 
-                    </Grid>
-
-                    <Grid item xs={12}>
+                    <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
                             <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Procedimientos"} />
-                        </Grid>
                     </Grid>
+                </Grid>
             </div>
         )
     }

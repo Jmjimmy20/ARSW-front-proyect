@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Button } from '@material-ui/core'
 import { Route, Switch } from 'react-router-dom';
-import E_Assistant from './E_Assistant';
+import EAssistant from './E_Assistant';
 
 export default class N_Assistant extends Component {
 
@@ -26,9 +26,8 @@ export default class N_Assistant extends Component {
     render() {
         return (
             <div>
-                
                 <Grid container>
-                    <Grid item xs={6} style={{paddingLeft:"2%"}}>
+                    <Grid item xs={6}>
                         <Grid item xs={3}>
                             <Button
                                 type="submit"
@@ -41,15 +40,12 @@ export default class N_Assistant extends Component {
                                 Asignar Enfermera
                             </Button>
                         </Grid>
-                        
-                        
                     </Grid>
-
 
                     <Grid item xs={6}>
                         <Switch>
                             <Route path="/Admin/nurse/E_Assistant">
-                                <E_Assistant/>
+                                <EAssistant/>
                             </Route>
                         </Switch>
                     </Grid>

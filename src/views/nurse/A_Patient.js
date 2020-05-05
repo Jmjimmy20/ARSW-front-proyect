@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import cookie from 'react-cookies'
-import { Grid, FormControl, InputLabel, NativeSelect, Paper, Typography, Button } from '@material-ui/core'
+import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
 import Axios from 'axios'
 import AsignarCuarto from './AsignarCuarto';
+import AsignarProcedimiento from './AsignarProcedimiento';
 
 export default class A_Patient extends Component {
     constructor(props) {
@@ -71,7 +72,7 @@ export default class A_Patient extends Component {
         if(this.state.vistaSelect === "cuarto")
             return <AsignarCuarto/>
         else if(this.state.vistaSelect === "procedimiento")
-            return <AsignarCuarto/>
+            return <AsignarProcedimiento />
         else
             return ""
     }
@@ -80,8 +81,8 @@ export default class A_Patient extends Component {
     render() {
         return (
             <div>
-                <Grid container spacing={3}>
-                    <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
+                <Grid container>
+                    <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
                         <FormControl fullWidth error={this.state.errorType}>
                             <InputLabel id="typeNurseInput">Paciente</InputLabel>
                             <NativeSelect 
@@ -99,41 +100,38 @@ export default class A_Patient extends Component {
                             </NativeSelect>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12} style={{ paddingBottom:'10%'}}>
-                    </Grid>
 
-                    <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
-                        <Grid item xs={12} style={{ padding: 3 }}>
-                            <Grid container spacing={3}>
-                                <Grid item xs={6}>
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        className="submit"
-                                        onClick={(e)=>this.selectButton(e,"cuarto")}
-                                        >
-                                        Asignar Cuarto
-                                    </Button>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        className="submit"
-                                        onClick={(e)=>this.selectButton(e,"procedimiento")}
-                                        >
-                                        Asignar Procedimiento
-                                    </Button>
-                                </Grid>
+                    <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
+                        <Grid container >
+                            <Grid item xs={5}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    onClick={(e)=>this.selectButton(e,"cuarto")}
+                                    >
+                                    Asignar Cuarto
+                                </Button>
+                            </Grid>
+                            <Grid item xs={2}></Grid>
+                            <Grid item xs={5}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    onClick={(e)=>this.selectButton(e,"procedimiento")}
+                                    >
+                                    Asignar Procedimiento
+                                </Button>
                             </Grid>
                         </Grid>
-                        <Grid item xs={12}>
-                            {this.vistaRender()}
-                        </Grid>
+                    </Grid>
+                    <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
+                        {this.vistaRender()}
                     </Grid>
                 </Grid>
             </div>

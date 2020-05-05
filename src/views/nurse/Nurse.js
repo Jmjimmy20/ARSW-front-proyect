@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-import { Grid, FormControl, InputLabel, NativeSelect, FormHelperText, Paper, Button, Typography } from '@material-ui/core'
-import Axios from 'axios'
+import { Grid, Button } from '@material-ui/core'
 import cookie from 'react-cookies';
 import { Route, Switch } from 'react-router-dom';
-import N_Assistant from './N_Assistant';
-import N_Patient from './N_Patient';
+import NAssistant from './N_Assistant';
+import NPatient from './N_Patient';
 
 export default class Nurses extends Component {
 
@@ -27,9 +26,10 @@ export default class Nurses extends Component {
     render() {
         return (
             <div>
-                <Grid container spacing={3}>
-                    <Grid item xs={6} style={{ padding: 3 }}>
-                        <Grid container spacing={3} style={{marginLeft: "3%"}}>
+                <Grid container style={{paddingLeft: 5, paddingRight: 5}}>
+                    <Grid item xs={4}>
+                        <Grid container >
+                            <Grid item xs={1}></Grid>
                             <Grid item xs={3}>
                                 <Button
                                     type="submit"
@@ -45,9 +45,9 @@ export default class Nurses extends Component {
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={6} style={{ padding: 3 }}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={6}>
+                    <Grid item xs={8}>
+                        <Grid container>
+                            <Grid item xs={5}>
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -59,7 +59,8 @@ export default class Nurses extends Component {
                                     Auxiliar
                                 </Button>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={5}>
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -74,27 +75,15 @@ export default class Nurses extends Component {
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={12} style={{ padding: 3 }}>
+                    <Grid item xs={12} >
                         <Switch>
                             <Route path="/Nurse/Assistant">
-                                <N_Assistant/>
+                                <NAssistant />
                             </Route>
                             <Route path="/Nurse/Patient">
-                                <N_Patient/>
+                                <NPatient />
                             </Route>
                         </Switch>
-                    </Grid>
-
-                    <Grid item xs={6} style={{ padding: 3 }}>   
-                        <Grid container spacing={3} style={{ marginTop: "3%", marginLeft: "3%"}}>
-                            <Grid item xs={3}>
-                                
-                            </Grid>
-                        </Grid>
-                    </Grid>
-
-                    <Grid item xs={6} style={{ padding: 3 }}>
-                         
                     </Grid>
                 </Grid>
             </div>

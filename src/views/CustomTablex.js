@@ -1,4 +1,4 @@
-import { Checkbox, lighten, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Toolbar, Typography } from '@material-ui/core';
+import { lighten, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TableSortLabel, Toolbar, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { Component } from 'react';
 

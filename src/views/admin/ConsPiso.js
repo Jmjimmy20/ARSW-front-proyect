@@ -15,8 +15,6 @@ export default class ConsPiso extends Component {
             pisos:[],
             rows: '',
             headCells: '',
-            rows:[]
-
         }
     }
 
@@ -24,13 +22,6 @@ export default class ConsPiso extends Component {
         { id: 'IdRoom', label: 'Room' },
         { id: 'nCamas', label: 'Beds' }
       ];
-      
-    /*rows = [
-        { id: 'name', name: 'Nicolas', lastname: 'Cardenas' , nCamas: '2'},
-        { id: 'name', name: 'Jimmy', lastname: 'Moya', nCamas: '4' },
-        { id: 'name', name: 'Juan', lastname: 'Mora', nCamas: '6'}
-
-      ];*/
 
     componentDidMount(){
         var token = cookie.load('userToken');

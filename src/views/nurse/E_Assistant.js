@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import cookie from 'react-cookies'
+//import cookie from 'react-cookies'
 import TextField from '@material-ui/core/TextField';
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
 import Axios from 'axios'
+import update from 'immutability-helper';
 
 export default class E_Assistant extends Component {
 
@@ -32,7 +33,7 @@ export default class E_Assistant extends Component {
     mailRegEx =/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
 
     componentDidMount() {
-        var token = cookie.load('userToken');
+        //var token = cookie.load('userToken');
         //console.log(token);
         Axios.get("/admin/nurses")
         .then(res =>{
@@ -112,9 +113,13 @@ export default class E_Assistant extends Component {
             })
         }
 
-        if(!this.state.errorNurseName&&!this.state.errorMail){
+        if(!this.state.errorNurseName&&!this.state.errorMail) {
 
-            this.state.nurseObj.name = this.state.nurseName
+            this.setState((state) => {
+                return {
+                    nurseObj: update(state.nurseObj, { "name": { $set: state.nurseName } })
+                }
+            });
 
             Axios 
                 .put("/admin/nurses",this.state.nurseObj)

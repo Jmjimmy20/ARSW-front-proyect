@@ -1,4 +1,4 @@
-import { Button, FormControl, FormHelperText, Grid, InputLabel, NativeSelect, Paper, TableRow, Typography } from '@material-ui/core';
+import { Button, FormControl, FormHelperText, Grid, InputLabel, NativeSelect, Paper, Typography } from '@material-ui/core';
 import Axios from 'axios';
 import React, { Component } from 'react';
 import cookie from 'react-cookies';
@@ -27,9 +27,6 @@ export default class Nassistant extends Component {
             order:'',
             nurseId:'',
             enfermeras:[],
-            headCells:[],
-            rows:[]
-
         }
         this.logout = this.logout.bind(this)
     }

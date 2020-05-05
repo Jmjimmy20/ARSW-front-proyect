@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import cookie from 'react-cookies'
-import TextField from '@material-ui/core/TextField';
-import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button, Typography } from '@material-ui/core'
+import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
 import Axios from 'axios'
 
 export default class EditPiso extends Component {
@@ -33,8 +32,7 @@ export default class EditPiso extends Component {
 
     getFloor = (event) => {
         let floorID = event.target.value;
-        var numFloor = 0;
-        //console.log(event.target.value);
+
         this.setState((state) => {
             for(const floor of state.pisos){
                 if(floor.blockcode === parseInt(floorID)){
