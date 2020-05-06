@@ -35,8 +35,9 @@ export default class C_Patient extends Component {
     }
     
     headCells = [
-        { id: 'IdRoom', label: 'Room' },
-        { id: 'nCamas', label: 'Beds' }
+        { id: 'IdPro', label: 'ProcedimientoID' },
+        { id: 'nPro', label: 'Nombre' },
+        { id: 'dPro', label: 'Descripción' }
       ];
 
     getPatient = (event) => {
