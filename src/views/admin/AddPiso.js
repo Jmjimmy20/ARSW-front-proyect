@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import cookie from 'react-cookies'
 import TextField from '@material-ui/core/TextField';
-import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
+import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button, Typography } from '@material-ui/core'
 import Axios from 'axios'
 import update from 'immutability-helper';
 
@@ -108,7 +108,12 @@ export default class AddPiso extends Component {
     render() {
         return (
             <div>
-                <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Typography variant="h2" gutterBottom align="center" color='textSecondary'>
+                        Agregar Piso
+                    </Typography>
+                </Grid>
+                <Grid container spacing={3} style={{paddingTop:'2%'}}>
                     <Grid container component={Paper}>
                         <Grid item xs={12} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
                             <TextField fullWidth

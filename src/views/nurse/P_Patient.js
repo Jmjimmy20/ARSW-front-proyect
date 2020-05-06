@@ -67,7 +67,12 @@ export default class P_Patient extends Component {
     render() {
         return (
             <div>
-                <Grid container>
+                <Grid item xs={12}>
+                    <Typography variant="h2" gutterBottom align="center" color='textSecondary'>
+                        Modificar Paciente
+                    </Typography>
+                </Grid>
+                <Grid container style={{paddingTop:'2%'}}>
                     <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
                         <FormControl fullWidth error={this.state.errorType}>
                             <InputLabel id="typeNurseInput">Paciente</InputLabel>

@@ -63,7 +63,12 @@ export default class ConsEnfermera extends Component {
     render() {
         return (
             <div>
-                <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Typography variant="h2" gutterBottom align="center" color='textSecondary'>
+                        Consultar Enfermera
+                    </Typography>
+                </Grid>
+                <Grid container spacing={3} style={{paddingTop:'2%'}}>
                     <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
                         <FormControl fullWidth error={this.state.errorType}>
                             <InputLabel id="typeNurseInput">Enfermera</InputLabel>

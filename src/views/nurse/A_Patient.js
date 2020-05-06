@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import cookie from 'react-cookies'
-import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button } from '@material-ui/core'
+import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button, Typography } from '@material-ui/core'
 import Axios from 'axios'
 import AsignarCuarto from './AsignarCuarto';
 import AsignarProcedimiento from './AsignarProcedimiento';
@@ -81,7 +81,13 @@ export default class A_Patient extends Component {
     render() {
         return (
             <div>
-                <Grid container>
+                
+                <Grid item xs={12}>
+                    <Typography variant="h2" gutterBottom align="center" color='textSecondary'>
+                        Asignar Proceso
+                    </Typography>
+                </Grid>
+                <Grid container style={{paddingTop:'2%'}}>
                     <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
                         <FormControl fullWidth error={this.state.errorType}>
                             <InputLabel id="typeNurseInput">Paciente</InputLabel>

@@ -15,6 +15,8 @@ export default class ConsPiso extends Component {
             pisos:[],
             rows: '',
             headCells: '',
+            rows:[]
+
         }
     }
 
@@ -22,6 +24,13 @@ export default class ConsPiso extends Component {
         { id: 'IdRoom', label: 'Room' },
         { id: 'nCamas', label: 'Beds' }
       ];
+      
+    /*rows = [
+        { id: 'name', name: 'Nicolas', lastname: 'Cardenas' , nCamas: '2'},
+        { id: 'name', name: 'Jimmy', lastname: 'Moya', nCamas: '4' },
+        { id: 'name', name: 'Juan', lastname: 'Mora', nCamas: '6'}
+
+      ];*/
 
     componentDidMount(){
         var token = cookie.load('userToken');
@@ -62,7 +71,12 @@ export default class ConsPiso extends Component {
     render() {
         return (
             <div>
-                <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Typography variant="h2" gutterBottom align="center" color='textSecondary'>
+                        Consultar Piso
+                    </Typography>
+                </Grid>
+                <Grid container spacing={3} style={{paddingTop:'2%'}}>
                     <Grid item xs={12}  component={Paper} style={{ paddingLeft:'10%', paddingRight:'10%', paddingBottom:'5%'}}>
                         <FormControl fullWidth error={this.state.errorType}>
                             <InputLabel id="typeNurseInput">Pisos</InputLabel>
