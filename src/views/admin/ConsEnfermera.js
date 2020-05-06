@@ -103,7 +103,7 @@ export default class ConsEnfermera extends Component {
                         </Grid>
                         <Grid item xs={12}>
                             <Typography>
-                                Cedula:  { this.state.cedulaNurse }
+                            Documento de Indentidad:  { this.state.cedulaNurse }
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>

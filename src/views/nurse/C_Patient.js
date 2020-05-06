@@ -107,7 +107,7 @@ export default class C_Patient extends Component {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    Cedula:  { this.state.P_idDoc }
+                                Documento de Indentidad:  { this.state.P_idDoc }
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>

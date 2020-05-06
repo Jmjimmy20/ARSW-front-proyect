@@ -199,7 +199,7 @@ export default class AddEfermera extends Component {
                                 onChange={this.cedulaNurseChange}
                                 error={this.state.errorCedula}
                                 id="CedulaInput" 
-                                label="Cedula" 
+                                label="Documento de Indentidad" 
                                 type="number" 
                             />
                         </Grid>
