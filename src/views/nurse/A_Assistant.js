@@ -1,51 +1,34 @@
 import React, { Component } from 'react'
-//import cookie from 'react-cookies'
-import TextField from '@material-ui/core/TextField';
+import cookie from 'react-cookies'
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button, Typography } from '@material-ui/core'
 import Axios from 'axios'
-import update from 'immutability-helper';
 
-export default class E_Assistant extends Component {
 
+export default class A_Assistant extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            nurseName:'',
-            cedulaNurse:'',
-            RHNurse:'',
-            typeNurse: '',
-            mailNurse:'',
-            errorNurseName:false,
-            errorCedula:false,
-            errorRH:false,
-            errorType:false,
-            errorMail:false,
-            typeDocument:'',
-            errorTypeD:false,
             enfermeras: [],
-            nurseId:'',
-            nurseObj:''
+            n_name:'',
+            n_id:'',
+            vistaSelect:''
+
         }
     }
 
-    //expresiones regulares
-    textRegEx = /^([a-zA-Z ])*$/;
-    mailRegEx =/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,4})+$/;
-
     componentDidMount() {
-        //var token = cookie.load('userToken');
-        //console.log(token);
+        var token = cookie.load('userToken');
+        console.log(token);
         Axios.get("/nurse/users")
         .then(res =>{
-          //console.log(res.data)
+            console.log(res.data)
             this.setState({
                 enfermeras:res.data
             })
         });
-        console.log(this.state.enfermeras.length);
+        
     }
     
-
     getAux = (event) => {
         let auxNurse = event.target.value;
         //console.log(event.target.value);
@@ -64,73 +47,22 @@ export default class E_Assistant extends Component {
             }
         }
     }
-    nameNurseChange = (event) =>{
-        this.setState({
-            nurseName: event.target.value, errorNurseName:false
-        })
-    }
-    cedulaNurseChange = (event) =>{
-        this.setState({
-            cedulaNurse: event.target.value, errorCedula:false
-        })
-    }
-    RhNurseChange = (event) =>{
-        this.setState({
-            RHNurse: event.target.value, errorRH:false
-        })
-    }
-    mailNurseChange = (event) =>{
-        this.setState({
-            mailNurse: event.target.value, errorMail:false
-        })
-    }
 
-    createNurse = (event) =>{
+    selectButton = (event, value) => {
         event.preventDefault();
-        //nombre
-        if(this.state.nurseName === '' || this.state.nurseName.length === 0){
-            this.setState({
-                errorNurseName:true
-            })
-        }else if(!this.textRegEx.test(this.state.nurseName)){
-            this.setState({
-                errorNurseName:true
-            })
-        }
-        //cedula
-        
-        //mail
-        if(this.state.mailNurse === '' || this.state.mailNurse.length === 0){
-            this.setState({
-                errorMail:true
-            })
-        }else if(!this.mailRegEx.test(this.state.mailNurse)){
-            this.setState({
-                errorMail:true
-            })
-        }
-
-        if(!this.state.errorNurseName&&!this.state.errorMail) {
-
-            this.setState((state) => {
-                return {
-                    nurseObj: update(state.nurseObj, { "name": { $set: state.nurseName } })
-                }
-            });
-
-            Axios 
-                .put("/admin/nurses",this.state.nurseObj)
-                .then(res=>{console.log(res)})          
-        }
-
+        this.setState ({
+            vistaSelect:value
+        })
     }
+    
 
     render() {
         return (
             <div>
+            
                 <Grid item xs={12}>
                     <Typography variant="h2" gutterBottom align="center" color='textSecondary'>
-                        Modificar Auxiliar
+                        Enfermera Auxiliar
                     </Typography>
                 </Grid>
                 <Grid container style={{paddingTop:'2%'}}>
@@ -183,8 +115,11 @@ export default class E_Assistant extends Component {
                         </Grid>
                     </Grid>
 
+
+
+
                 </Grid>
-                
+            
             </div>
         )
     }

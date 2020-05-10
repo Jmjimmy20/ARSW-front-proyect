@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
-import { Grid, Button } from '@material-ui/core'
+import { Grid, Button, Paper, Typography } from '@material-ui/core'
 import cookie from 'react-cookies';
 import { Route, Switch } from 'react-router-dom';
 import NAssistant from './N_Assistant';
 import NPatient from './N_Patient';
+import CustomTable from '../CustomTablex';
 
 export default class Nurses extends Component {
 
     constructor(props) {
         super(props);
         this.state = { 
-            
+            rows:[]
         }
         this.logout = this.logout.bind(this)
     }
@@ -21,6 +22,12 @@ export default class Nurses extends Component {
         this.props.history.push("/")
     }
 
+    headCells = [
+        { id: 'IdNurse', label: 'ID Enfermera' },
+        { id: 'nNurse', label: 'Nombre Enfermera' },
+        { id: 'IdTask', label: 'Id Tarea' },
+        { id: 'nTask', label: 'Tarea' }
+      ];
     
     
     render() {
@@ -86,6 +93,17 @@ export default class Nurses extends Component {
                         </Switch>
                     </Grid>
                 </Grid>
+                {/*
+                <Grid item xs={12}  component={Paper} style={{ paddingLeft:'20%', paddingRight:'20%', paddingBottom:'5%'}}>
+                    <Typography variant="h2" gutterBottom align="center" color='textSecondary'>
+                        Dashboard
+                    </Typography>
+                    <Grid item xs={12}>
+                        <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Información"} />
+                    </Grid>
+                </Grid>
+                */}
+                
             </div>
         )
     }
