@@ -17,7 +17,8 @@ export default class C_Patient extends Component {
             P_idType:'',
             P_telefono:'',
             P_rh:'',
-            rows:[]
+            rows:[],
+            procedimientos:[]
         }
     }
 
@@ -49,6 +50,7 @@ export default class C_Patient extends Component {
                 Axios.get("/nurse/patient/" + paci.patientId)
                 .then(res => {
                     this.setState({
+
                         P_name: res.data.name,
                         P_id:res.data.patientId,
                         P_direccion:res.data.address,
@@ -57,6 +59,22 @@ export default class C_Patient extends Component {
                         P_idType:res.data.govType,
                         P_telefono:res.data.phone,
                         P_rh:res.data.rh
+                    })
+
+                })
+
+                Axios.get("/nurse/procedures/patient/" + paci.patientId)
+                .then(res => {
+                    this.setState((state) =>{
+                        let tempRows = []
+                        for(const proc of res.data){
+                            let row = {name: proc.procedureId, IdPro:proc.procedureId, nPro:proc.name, dPro:proc.description }
+                            tempRows.push(row)
+                        }
+
+                        return({
+                            procedimientos: tempRows
+                        })
                     })
 
                 })
@@ -135,7 +153,7 @@ export default class C_Patient extends Component {
                     </Grid>
 
                     <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
-                        <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Procedimientos"} />
+                        <CustomTable rows={this.state.procedimientos} headCells={this.headCells} title={"Procedimientos"} />
                     </Grid>
                 </Grid>
             </div>
