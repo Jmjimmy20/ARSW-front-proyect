@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { Grid, Button } from '@material-ui/core'
 import { Route, Switch } from 'react-router-dom';
 import EAssistant from './E_Assistant';
-import A_Assistant from './A_Assistant';
-import C_Assistant from './C_Assistant';
-import E_Assistant from './E_Assistant';
+import AAssistant from './A_Assistant';
+import CAssistant from './C_Assistant';
 
 export default class N_Assistant extends Component {
 
@@ -30,59 +29,71 @@ export default class N_Assistant extends Component {
         return (
             <div>
                 <Grid container>
-                    <Grid item xs={6}>
-                        <Grid item xs={3}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="submit"
-                                href = {"/Nurse/Assistant/Agregar"}
+                    <Grid item xs={4}>
+                        <Grid container>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    href={"/Nurse/Assistant/Agregar"}
                                 >
-                                Agregar
-                            </Button>
+                                    Agregar
+                                </Button>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={3}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="submit"
-                                href = {"/Nurse/Assistant/Modificar"}
+
+                        <Grid container>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    href={"/Nurse/Assistant/Modificar"}
                                 >
-                                Modificar
-                            </Button>
+                                    Modificar
+                                </Button>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={3}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className="submit"
-                                href = {"/Nurse/Assistant/Consultar"}
+
+                        <Grid container>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    href={"/Nurse/Assistant/Consultar"}
                                 >
-                                Consultar
-                            </Button>
+                                    Consultar
+                                </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={6}>
+
+                    <Grid item xs={8}>
                         <Switch>
                             <Route path="/Nurse/Assistant/Agregar">
-                                <A_Assistant/>
+                                <AAssistant />
                             </Route>
                         </Switch>
                         <Switch>
                             <Route path="/Nurse/Assistant/Modificar">
-                                <EAssistant/>
+                                <EAssistant />
                             </Route>
                         </Switch>
                         <Switch>
                             <Route path="/Nurse/Assistant/Consultar">
-                                <C_Assistant/>
+                                <CAssistant />
                             </Route>
                         </Switch>
                     </Grid>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Button, Paper, Typography } from '@material-ui/core'
+import { Grid, Button, Typography, Paper } from '@material-ui/core'
 import cookie from 'react-cookies';
 import { Route, Switch } from 'react-router-dom';
 import NAssistant from './N_Assistant';
@@ -54,7 +54,20 @@ export default class Nurses extends Component {
 
                     <Grid item xs={8}>
                         <Grid container>
-                            <Grid item xs={5}>
+                            <Grid item xs={1}>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    href={"/Nurse"}
+                                >
+                                    Home
+                                </Button>
+                            </Grid>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={4}>
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -67,7 +80,7 @@ export default class Nurses extends Component {
                                 </Button>
                             </Grid>
                             <Grid item xs={1}></Grid>
-                            <Grid item xs={5}>
+                            <Grid item xs={4}>
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -90,19 +103,19 @@ export default class Nurses extends Component {
                             <Route path="/Nurse/Patient">
                                 <NPatient />
                             </Route>
+                            <Route path="/Nurse">
+                                <Grid item xs={12} component={Paper} style={{ paddingLeft: '20%', paddingRight: '20%', paddingBottom: '5%' }}>
+                                    <Typography variant="h2" gutterBottom align="center" color='textSecondary'>
+                                        Dashboard
+                                    </Typography>
+                                    <Grid item xs={12}>
+                                        <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Información"} />
+                                    </Grid>
+                                </Grid>
+                            </Route>
                         </Switch>
                     </Grid>
                 </Grid>
-                {/*
-                <Grid item xs={12}  component={Paper} style={{ paddingLeft:'20%', paddingRight:'20%', paddingBottom:'5%'}}>
-                    <Typography variant="h2" gutterBottom align="center" color='textSecondary'>
-                        Dashboard
-                    </Typography>
-                    <Grid item xs={12}>
-                        <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Información"} />
-                    </Grid>
-                </Grid>
-                */}
                 
             </div>
         )

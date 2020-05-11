@@ -13,10 +13,8 @@ export default class ConsPiso extends Component {
             beds:'',
             rooms:0,
             pisos:[],
-            rows: '',
             headCells: '',
             rows:[]
-
         }
     }
 
