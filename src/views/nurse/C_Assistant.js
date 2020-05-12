@@ -44,7 +44,12 @@ export default class C_Assistant extends Component {
         
         for(const nur of this.state.enfermeras){
             if(nur.userId === parseInt(auxNurse)){
-                Axios.get("/nurse/patient/" + nur.userId)
+                this.setState({
+                    A_name: nur.nurses[0].name,
+                    A_idDoc:nur.govId,
+                    A_idType:nur.govType
+                })
+                /*Axios.get("/nurse/patient/" + nur.userId)
                 .then(res => {
                     this.setState({
                         A_name: res.data.name,
@@ -52,7 +57,7 @@ export default class C_Assistant extends Component {
                         A_idType:res.data.govType
                     })
 
-                })
+                })*/
                 
             }
         }
