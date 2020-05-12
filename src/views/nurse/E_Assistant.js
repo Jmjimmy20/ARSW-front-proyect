@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button, Typography } from '@material-ui/core'
 import Axios from 'axios'
 import update from 'immutability-helper';
+import ModificarTurno from './ModificarTurno';
+import ModificarTarea from './ModificarTarea';
 
 export default class E_Assistant extends Component {
 
@@ -84,6 +86,22 @@ export default class E_Assistant extends Component {
         })
     }
 
+    selectButton = (event, value) => {
+        event.preventDefault();
+        this.setState ({
+            vistaSelect:value
+        })
+    }
+
+    vistaRender = ()=>{
+        if(this.state.vistaSelect === "Turno")
+            return <ModificarTurno/>
+        else if(this.state.vistaSelect === "Tarea")
+            return <ModificarTarea/>
+        else
+            return ""
+    }
+
     createNurse = (event) =>{
         event.preventDefault();
         //nombre
@@ -161,7 +179,7 @@ export default class E_Assistant extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="submit"
-                                    onClick={(e)=>this.selectButton(e,"cuarto")}
+                                    onClick={(e)=>this.selectButton(e,"Turno")}
                                     >
                                     Turnos
                                 </Button>
@@ -174,12 +192,15 @@ export default class E_Assistant extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="submit"
-                                    onClick={(e)=>this.selectButton(e,"procedimiento")}
+                                    onClick={(e)=>this.selectButton(e,"Tarea")}
                                     >
                                     Tareas
                                 </Button>
                             </Grid>
                         </Grid>
+                    </Grid>
+                    <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
+                        {this.vistaRender()}
                     </Grid>
 
                 </Grid>
