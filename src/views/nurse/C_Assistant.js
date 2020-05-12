@@ -47,10 +47,9 @@ export default class C_Assistant extends Component {
                 Axios.get("/nurse/patient/" + nur.userId)
                 .then(res => {
                     this.setState({
-                        A_name: res.data.nurses[0].name,
+                        A_name: res.data.name,
                         A_idDoc:res.data.govId,
-                        A_idType:res.data.govType,
-                        A_correo:res.data.email
+                        A_idType:res.data.govType
                     })
 
                 })
@@ -104,12 +103,7 @@ export default class C_Assistant extends Component {
                                 <Typography>
                                 Documento de Indentidad:  { this.state.A_idDoc }
                                 </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography>
-                                    Correo:  { this.state.A_correo }
-                                </Typography>
-                            </Grid>    
+                            </Grid>  
                         </Grid>
                     </Grid>
                     

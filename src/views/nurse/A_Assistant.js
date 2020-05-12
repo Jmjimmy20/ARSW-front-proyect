@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import cookie from 'react-cookies'
 import { Grid, FormControl, InputLabel, NativeSelect, Paper, Button, Typography } from '@material-ui/core'
 import Axios from 'axios'
+import AsignarTurno from './AsignarTurno';
+import AsignarTarea from './AsignarTarea';
 
 
 export default class A_Assistant extends Component {
@@ -32,20 +34,6 @@ export default class A_Assistant extends Component {
     getAux = (event) => {
         let auxNurse = event.target.value;
         //console.log(event.target.value);
-        
-        for(const nur of this.state.enfermeras){
-            if(nur.userId === parseInt(auxNurse)){
-                Axios.get("/nurse/users/" + nur.userId)
-                .then(res => {
-                    this.setState({
-                        n_name: res.data.name,
-                        
-                    })
-
-                })
-                
-            }
-        }
     }
 
     selectButton = (event, value) => {
@@ -53,6 +41,15 @@ export default class A_Assistant extends Component {
         this.setState ({
             vistaSelect:value
         })
+    }
+
+    vistaRender = ()=>{
+        if(this.state.vistaSelect === "Turno")
+            return <AsignarTurno/>
+        else if(this.state.vistaSelect === "Tarea")
+            return <AsignarTarea/>
+        else
+            return ""
     }
     
 
@@ -94,7 +91,7 @@ export default class A_Assistant extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="submit"
-                                    onClick={(e)=>this.selectButton(e,"cuarto")}
+                                    onClick={(e)=>this.selectButton(e,"Turno")}
                                     >
                                     Turnos
                                 </Button>
@@ -107,17 +104,16 @@ export default class A_Assistant extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="submit"
-                                    onClick={(e)=>this.selectButton(e,"procedimiento")}
+                                    onClick={(e)=>this.selectButton(e,"Tarea")}
                                     >
                                     Tareas
                                 </Button>
                             </Grid>
                         </Grid>
                     </Grid>
-
-
-
-
+                    <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
+                        {this.vistaRender()}
+                    </Grid>
                 </Grid>
             
             </div>
