@@ -172,6 +172,19 @@ class AsignarProcedimiento extends Component {
               {this.state.description}
             </Typography>
           </Grid>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={6}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className="submit"
+              onClick={this.search}
+            >
+              Asignar
+            </Button>
+          </Grid>
         </Grid>
       </div>
     );
