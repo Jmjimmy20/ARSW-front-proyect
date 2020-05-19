@@ -32,10 +32,8 @@ export default class C_Assistant extends Component {
     }
     
     headCells = [
-        { id: 'IdNurse', label: 'Id Enfermera' },
-        { id: 'nNurse', label: 'Nombre' },
-        { id: 'IdTAsk', label: 'Id tarea' },
-        { id: 'nTAsk', label: 'tarea' }
+        { id: 'nTask', label: 'Tarea' },
+        { id: 'dTask', label: 'Descripción' }
       ];
 
     getAux = (event) => {
@@ -49,15 +47,24 @@ export default class C_Assistant extends Component {
                     A_idDoc:nur.govId,
                     A_idType:nur.govType
                 })
-                /*Axios.get("/nurse/patient/" + nur.userId)
-                .then(res => {
-                    this.setState({
-                        A_name: res.data.name,
-                        A_idDoc:res.data.govId,
-                        A_idType:res.data.govType
+                
+                Axios.get("/nurse/undergoes/notdone/nurse/" + nur.nurses[0].nurseId)
+                .then(res =>{
+                    let tempRows = []
+                    for(const underAux of res.data){
+                        Axios.get("/nurse/procedure/undergoes/" + underAux.undergoesId)
+                        .then(resTask =>{
+                            this.setState((state)=>{
+                                let row = {name:resTask.data.procedureId, nTask: resTask.data.name, dTask: resTask.data.description }
+                                tempRows.push(row)
+                            })
+                        })
+                    }
+                    return ({
+                        rows:tempRows
                     })
-
-                })*/
+                    
+                })
                 
             }
         }
