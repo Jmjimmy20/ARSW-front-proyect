@@ -61,12 +61,7 @@ export default class Nassistant extends Component {
                 rows:res
             })
         })
-        
-        
-
     }
-
-    
 
     logout(){
         cookie.remove('userToken',{path:'/'})
@@ -185,6 +180,17 @@ export default class Nassistant extends Component {
                                     className="submit"
                                     >
                                     Mis datos
+                                </Button>
+                            </Grid><Grid item xs={1}></Grid>
+                            <Grid item xs={3} >
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    >
+                                    Alerta
                                 </Button>
                             </Grid>
                         </Grid>

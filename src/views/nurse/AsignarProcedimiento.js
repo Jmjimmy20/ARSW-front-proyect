@@ -212,6 +212,7 @@ class AsignarProcedimiento extends Component {
               >
                 <option value=""> </option>
                 {this.state.enfermeras.map((nuraux, index) => {
+                  console.log(nuraux)
                   let n_name = nuraux.nurses[0].name
                   let n_id = nuraux.nurses[0].nurseId
                   return (
