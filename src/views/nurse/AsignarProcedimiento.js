@@ -14,6 +14,8 @@ class AsignarProcedimiento extends Component {
       procedure: '',
       procedureId: '',
       procedures: [],
+      enfermeras:[],
+      enfermera:'',
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem velit, rhoncus at augue nec, aliquam mattis sapien. Donec eu libero ut magna vehicula vehicula in sit amet nisl. Ut tincidunt ante sed pharetra consequat. Integer quis nisl neque. Suspendisse accumsan nisi vitae nisl tempor, scelerisque tempor justo commodo. Mauris volutpat mi a facilisis dapibus. Praesent non sagittis quam. Vestibulum molestie ex eu est eleifend, eget egestas est sodales. Duis vitae ligula vitae ligula blandit tincidunt a et sapien. Maecenas eu leo sit amet magna blandit elementum eu non velit. Nam cursus nisi ac orci bibendum, sed varius nisl rhoncus. Suspendisse ac blandit mi. Sed ultrices consectetur tortor vel porttitor. Vestibulum non augue lobortis, mollis nunc ut, ullamcorper nisl. Integer magna sapien, commodo ut suscipit eu, sodales eu lacus."
     }
   }
@@ -24,6 +26,18 @@ class AsignarProcedimiento extends Component {
     .then(res => {
       this.setState({ procedures: res.data });
     });
+    Axios.get("/nurse/users")
+      .then(res =>{
+          this.setState({
+              enfermeras:res.data
+          })
+      });
+
+    Axios.get("nurse/room/patient/" + this.props.pacient)  
+      .then(res =>{
+        console.log(res)
+      })
+    
   }
   
   handleChangeProcedure = (event) => {
@@ -41,6 +55,14 @@ class AsignarProcedimiento extends Component {
         }
       }
     });
+  }
+
+  getNurses = (event) =>{
+    let auxNurse = event.target.value;
+    this.setState({
+      enfermera: auxNurse
+    })
+    
   }
 
   handleChangeProcedureID = (event) => {
@@ -67,6 +89,10 @@ class AsignarProcedimiento extends Component {
         }
       }
     }
+  }
+
+  asignar=() =>{
+
   }
 
   render() {
@@ -172,6 +198,53 @@ class AsignarProcedimiento extends Component {
               {this.state.description}
             </Typography>
           </Grid>
+          <Grid item xs={12} > 
+            <Typography variant={"h6"}>
+              Cama
+            </Typography>
+            
+            <FormControl fullWidth>
+              <InputLabel id="typeNurseInput">Cama</InputLabel>
+              <NativeSelect
+                fullWidth
+                value={this.state.enfermera}
+                onChange={this.getNurses}
+              >
+                <option value=""> </option>
+                {this.state.enfermeras.map((nuraux, index) => {
+                  let n_name = nuraux.nurses[0].name
+                  let n_id = nuraux.nurses[0].nurseId
+                  return (
+                    <option key={index} value={nuraux.userId}> {n_id} - {n_name} </option>
+                    )
+                })}
+              </NativeSelect>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} > 
+            <Typography variant={"h6"}>
+              Asignar Enfermera
+            </Typography>
+            
+            <FormControl fullWidth>
+              <InputLabel id="typeNurseInput">Enfermera</InputLabel>
+              <NativeSelect
+                fullWidth
+                value={this.state.enfermera}
+                onChange={this.getNurses}
+              >
+                <option value=""> </option>
+                {this.state.enfermeras.map((nuraux, index) => {
+                  let n_name = nuraux.nurses[0].name
+                  let n_id = nuraux.nurses[0].nurseId
+                  return (
+                    <option key={index} value={nuraux.userId}> {n_id} - {n_name} </option>
+                    )
+                })}
+              </NativeSelect>
+            </FormControl>
+          </Grid>
+
           <Grid item xs={3}></Grid>
           <Grid item xs={6}>
             <Button
@@ -180,7 +253,7 @@ class AsignarProcedimiento extends Component {
               variant="contained"
               color="primary"
               className="submit"
-              onClick={this.search}
+              onClick={this.asignar}
             >
               Asignar
             </Button>

@@ -39,13 +39,9 @@ export default class Nassistant extends Component {
     componentDidMount() {
         var token = cookie.load('userToken');
         console.log(token);
-        Axios.get("/assistant-nurse/nurses")
-        .then(res =>{
-            console.log(res.data)
-            this.setState({
-                enfermeras:res.data
-            })
-        });
+        /*var jwtDecode = require('jwt-decode');
+        let deco = jwtDecode(token);
+        deco.sub*/
         console.log(this.state.enfermeras.length);
         Axios.get("/assistant-nurse/patients")
         .then(res => {
@@ -145,27 +141,6 @@ export default class Nassistant extends Component {
                                 </Button>
                             </Grid>
 
-                            <Grid container style={{marginBottom: "3%"}}>
-                                <Grid item xs={2}></Grid>
-                                <Grid item xs={6}  component={Paper} style={{ padding: 5 }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="typeNurseInput">Enfermera</InputLabel>
-                                        <NativeSelect 
-                                            fullWidth
-                                            value={this.state.nurseId}
-                                            onChange={this.getNurse}
-                                            >
-                                            <option value=""> </option>
-                                            {this.state.enfermeras.map((enfermera, index) => {
-                                                return(
-                                                <option key={index} value={enfermera.nurseId}> {enfermera.position} - {enfermera.name} </option>
-                                                );
-                                            })}
-                                            
-                                        </NativeSelect>
-                                    </FormControl>
-                                </Grid>
-                            </Grid>
 
                             <Grid container style={{marginBottom: "3%"}}>
 

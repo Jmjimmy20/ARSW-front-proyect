@@ -72,7 +72,7 @@ export default class A_Patient extends Component {
         if(this.state.vistaSelect === "cuarto")
             return <AsignarCuarto/>
         else if(this.state.vistaSelect === "procedimiento")
-            return <AsignarProcedimiento />
+            return <AsignarProcedimiento  pacient={this.state.P_id}/>
         else
             return ""
     }

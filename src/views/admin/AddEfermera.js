@@ -128,7 +128,7 @@ export default class AddEfermera extends Component {
                 govType: this.state.typeDocument,
                 loginUser: this.state.cedulaNurse,//revisar 
                 password: this.state.cedulaNurse, // revisar
-                rol: "USER"
+                rol: this.state.typeNurse === "Asistente" ? "ASSISTANT" : "MANAGER"
             }
             Axios 
                 .post("/admin/users",user)
@@ -185,11 +185,11 @@ export default class AddEfermera extends Component {
                                     onChange={this.typeDocumentChange}
                                     >
                                     <option value=""> </option>
-                                    <option value={10}>cc</option>
-                                    <option value={20}>ce</option>
-                                    <option value={30}>ti</option>
-                                    <option value={40}>pa</option>
-                                    <option value={50}>rc</option>
+                                    <option value={"cc"}>cc</option>
+                                    <option value={"ce"}>ce</option>
+                                    <option value={"ti"}>ti</option>
+                                    <option value={"pa"}>pa</option>
+                                    <option value={"rc"}>rc</option>
                                 </NativeSelect>
                             </FormControl>
                         </Grid>
@@ -222,8 +222,8 @@ export default class AddEfermera extends Component {
                                     onChange={this.typeNurseChange}
                                     >
                                     <option value=""> </option>
-                                    <option value={10}>Asistente</option>
-                                    <option value={20}>Jefe</option>
+                                    <option value={"Asistente"}>Asistente</option>
+                                    <option value={"Jefe"}>Jefe</option>
                                 </NativeSelect>
                             </FormControl>
                         </Grid>

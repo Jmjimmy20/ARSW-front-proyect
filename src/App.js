@@ -52,6 +52,7 @@ function routeAuto(){
   if(token){
     Axios.defaults.headers.common["Authorization"] = token;
     let deco = jwtDecode(token);
+    console.log(deco);
     if (deco.jti === "ASSISTANT") 
       return "/NurseAssistantBoard"
     else if (deco.jti === "ADMIN")
