@@ -13,6 +13,7 @@ class CustomTable extends Component {
       order: 'asc',
       selected: []
     }
+    console.log(props)
   }
   
   descendingComparator(a, b, orderBy) {
@@ -87,10 +88,15 @@ class CustomTable extends Component {
     this.setState({
       selected: newSelected,
       numSelected: newSelected.length
-    });
+
+    },
+    ()=>{this.props.data(this.state.selected)}
+    );
   };
 
   isSelected = (name) => this.state.selected.indexOf(name) !== -1;
+
+  
   
   render() {
     return (
