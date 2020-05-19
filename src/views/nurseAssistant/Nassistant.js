@@ -27,6 +27,7 @@ export default class Nassistant extends Component {
             order:'',
             nurseId:'',
             enfermeras:[],
+            rooms:[]
         }
         this.logout = this.logout.bind(this)
     }
@@ -39,16 +40,25 @@ export default class Nassistant extends Component {
     componentDidMount() {
         var token = cookie.load('userToken');
         console.log(token);
-        /*var jwtDecode = require('jwt-decode');
+        var jwtDecode = require('jwt-decode');
         let deco = jwtDecode(token);
-        deco.sub*/
-        console.log(this.state.enfermeras.length);
-        Axios.get("/assistant-nurse/patients")
-        .then(res => {
+        //deco.sub
+
+        Axios.get("/assistant-nurse/rooms/nurse/" + deco.sub)
+        .then(resRooms =>{
             this.setState({
-                pacientes:res.data
+                rooms:resRooms.data
+            })
+        })
+        console.log(this.state.rooms)
+
+        Axios.get("/assistant-nurse/patients/nurse/" + deco.sub)
+        .then(resPatient => {
+            this.setState({
+                pacientes:resPatient.data
             })
         });
+        console.log(this.state.pacientes)
     }
 
     logout(){
