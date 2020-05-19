@@ -63,9 +63,9 @@ export default class Nassistant extends Component {
         })
 
         Axios.get("/assistant-nurse/patients/nurse/" + deco.sub)
-        .then(resUnder => {
+        .then(resPaci => {
             this.setState({
-                pacientes: resUnder.data
+                pacientes: resPaci.data
             })
         })
 
