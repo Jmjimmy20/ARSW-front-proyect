@@ -3,6 +3,7 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import cookie from 'react-cookies';
 import CustomTable from '../CustomTable';
+import moment from 'moment';
 
 
 export default class Nassistant extends Component {
@@ -47,30 +48,18 @@ export default class Nassistant extends Component {
         var jwtDecode = require('jwt-decode');
         let deco = jwtDecode(token);
         //deco.sub
-
-        Axios.get("/assistant-nurse/procedures/today/nurseGov/" + deco.sub)
-        .then(resPro => {
+        let prom = asyncFunc(deco)
+        prom.then(res =>{
             this.setState({
-                procedures: resPro.data
+                rows:res
             })
         })
-
-        Axios.get("/assistant-nurse/undergoes/today/nurseGov/" + deco.sub)
-        .then(resUnder => {
-            this.setState({
-                undergoes: resUnder.data
-            })
-        })
-
-        Axios.get("/assistant-nurse/patients/nurse/" + deco.sub)
-        .then(resUnder => {
-            this.setState({
-                pacientes: resUnder.data
-            })
-        })
-
+        
+        
 
     }
+
+    
 
     logout(){
         cookie.remove('userToken',{path:'/'})
@@ -139,10 +128,11 @@ export default class Nassistant extends Component {
     render() {
         return (
             <div>
-                <Grid container spacing={3}>
-                    <Grid item xs={3} style={{ padding: 3 }}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={6}>
+                <Grid container>
+                    <Grid item xs={6}>
+                        <Grid container>
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={3}>
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -154,7 +144,8 @@ export default class Nassistant extends Component {
                                     Log Out
                                 </Button>
                             </Grid>
-                            <Grid item xs={6} >
+                            <Grid item xs={1}></Grid>
+                            <Grid item xs={3} >
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -165,124 +156,77 @@ export default class Nassistant extends Component {
                                     Mis datos
                                 </Button>
                             </Grid>
-
-
-                            <Grid container style={{marginBottom: "3%"}}>
-                                {
-                                    /*
-                                        <Grid item xs={2}></Grid>
-                                            <Grid item xs={6} component={Paper} style={{ padding: 5 }}>
-                                            <FormControl fullWidth>
-                                                <InputLabel htmlFor="habitacionSelect">Habitacón</InputLabel>
-                                                <NativeSelect
-                                                    fullWidth
-                                                    value={this.state.nHabitacion}
-                                                    onChange={this.roomChange}
-                                                    inputProps={{
-                                                        name: 'Habitacion',
-                                                        id: 'habitacionSelect',
-                                                    }}
-                                                >   <option value="" />
-                                                    {this.state.habitaciones.map((habitacion, index) => {
-                                                        return (
-                                                            <option key={index} value={habitacion.idRoom}>Habitacion {habitacion.idRoom}</option>
-                                                        );
-                                                    })}
-                                                </NativeSelect>
-                                                <FormHelperText>Habitacion</FormHelperText>
-                                            </FormControl>
-                                        </Grid>
-                                    */
-                                }
-                                
-                                <Grid item xs={2}></Grid>
-                            </Grid>
-                            {/*
-                            <Grid container>
-                                <Grid item xs={2}></Grid>                                       
-                                <Grid item xs={6} component={Paper} style={{padding: 5}}>
-                                    <FormControl fullWidth>
-                                        <InputLabel htmlFor="pacienteSelect">Paciente</InputLabel>
-                                        <NativeSelect
-                                            fullWidth
-                                            value={this.state.nPaciente}
-                                            onChange={this.patientChange}
-                                            inputProps={{
-                                                name: 'Paciente',
-                                                id: 'pacienteSelect',
-                                            }}
-                                        >   <option value="" />
-                                            {this.state.pacientes.map((paciente, index) =>{
-                                                return(
-                                                    <option key={index} value={paciente.patientId}>{paciente.patientId} - {paciente.name}</option>
-                                                );
-                                            })}
-                                        </NativeSelect>
-                                        <FormHelperText>Paciente</FormHelperText>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={2}></Grid>
-                            </Grid>
-                                        */  }
                         </Grid>
                     </Grid>
-
-                    <Grid item xs={9} style={{marginTop: "3%"}}>
-                        {/*
-
-                        <Grid container component={Paper}>
-                            <Grid item xs={12}>
-                                <Typography>
-                                    Nombre:  { this.state.nombre }
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography>
-                                    Tipo de documento:  { this.state.docType }
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography>
-                                    Cedula:  { this.state.cedula }
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography>
-                                    RH:  { this.state.rh }
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography>
-                                    Genero:  { this.state.genero }
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        */}
-                        <Grid container component={Paper} style={{marginTop: "5%"}}>
-                            <Grid item xs={12}>
-                                <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Tareas"} />
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={2}></Grid>
-                        <Grid item xs={6} >
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className="submit"
-                                    onClick = {this.sendData}
-                                    >
-                                    Enviar
-                                </Button>
-                            </Grid>
+                    <Grid item xs={12} component={Paper} style={{marginTop: "5%", marginLeft:10, marginRight:10}}>
+                        <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Tareas"} />
                     </Grid>
-
-                    
-
+                    <Grid container>
+                        <Grid item xs={5}></Grid>
+                        <Grid item xs={2} >
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className="submit"
+                                onClick = {this.sendData}
+                                >
+                                Enviar
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </div>
         )
     }
 
+}
+
+async function asyncFunc(deco){
+    const response = await Promise.all([
+        Axios.get("/assistant-nurse/procedures/today/nurseGov/" + 5899459383),
+        Axios.get("/assistant-nurse/undergoes/today/nurseGov/" + 5899459383),
+        Axios.get("/assistant-nurse/patients/nurse/" + 5899459383)
+    ]);
+
+    console.log(response[2].data)
+
+    let tempRows = []
+    for(const paci of response[2].data){
+        let auxNombre = paci.name
+        let auxCuarto
+        let auxProcedure
+        let auxHora
+        
+        const responseH = await
+        Axios.get("/assistant-nurse/room/patient/" + paci.patientId)
+        .then(resRoom =>{
+            return resRoom.data.roomnumber
+        })
+        auxCuarto = responseH
+        for(const under of paci.stays[0].undergoes){
+            for(const underN of response[1].data){
+                if(under.undergoesId == underN.undergoesId){
+                    auxHora = moment(under.date) .format('LT')
+                    let row = {name: auxNombre, nPaci:auxNombre, nCuarto: auxCuarto, hora: auxHora, idUnde:under.undergoesId}
+                    tempRows.push(row)
+                }
+            }
+        }
+    }
+
+    for(const underT of tempRows){
+        for(const prc of response[0].data){
+            for(const proc of prc.undergoes){
+                if(underT.idUnde == proc.undergoesId){
+                    underT.nProcedure = prc.name
+                }
+    
+            }
+        }
+    }
+    console.log(tempRows)
+
+    return tempRows;
 }
