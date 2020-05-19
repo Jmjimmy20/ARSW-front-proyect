@@ -27,28 +27,49 @@ export default class Nassistant extends Component {
             order:'',
             nurseId:'',
             enfermeras:[],
+            rooms:[],
+            procedimientos:[],
+            undergoes:[]
         }
         this.logout = this.logout.bind(this)
     }
 
     headCells = [
-        { id: 'IdProcedure', label: 'Id' },
-        { id: 'nProcedure', label: 'Procedure' }
+        { id: 'nPaci', label: 'Paciente' },
+        { id: 'nCuarto', label: 'Cuarto' },
+        { id: 'nProcedure', label: 'Procedure' },
+        { id: 'hora', label: 'Hora' }
       ];
 
     componentDidMount() {
         var token = cookie.load('userToken');
         console.log(token);
-        /*var jwtDecode = require('jwt-decode');
+        var jwtDecode = require('jwt-decode');
         let deco = jwtDecode(token);
-        deco.sub*/
-        console.log(this.state.enfermeras.length);
-        Axios.get("/assistant-nurse/patients")
-        .then(res => {
+        //deco.sub
+
+        Axios.get("/assistant-nurse/procedures/today/nurseGov/" + deco.sub)
+        .then(resPro => {
             this.setState({
-                pacientes:res.data
+                procedures: resPro.data
             })
-        });
+        })
+
+        Axios.get("/assistant-nurse/undergoes/today/nurseGov/" + deco.sub)
+        .then(resUnder => {
+            this.setState({
+                undergoes: resUnder.data
+            })
+        })
+
+        Axios.get("/assistant-nurse/patients/nurse/" + deco.sub)
+        .then(resUnder => {
+            this.setState({
+                pacientes: resUnder.data
+            })
+        })
+
+
     }
 
     logout(){
@@ -72,6 +93,9 @@ export default class Nassistant extends Component {
         })
     }
 
+    sendData = (event) => {
+
+    }
 
     roomChange = (event) => {
         // console.log(event.target.value);
@@ -96,6 +120,7 @@ export default class Nassistant extends Component {
                         nPaciente: paciente.patientId
                     })
                 }
+
             }
         })
 
@@ -115,7 +140,7 @@ export default class Nassistant extends Component {
         return (
             <div>
                 <Grid container spacing={3}>
-                    <Grid item xs={6} style={{ padding: 3 }}>
+                    <Grid item xs={3} style={{ padding: 3 }}>
                         <Grid container spacing={3}>
                             <Grid item xs={6}>
                                 <Button
@@ -137,38 +162,42 @@ export default class Nassistant extends Component {
                                     color="primary"
                                     className="submit"
                                     >
-                                    Alerta
+                                    Mis datos
                                 </Button>
                             </Grid>
 
 
                             <Grid container style={{marginBottom: "3%"}}>
-
-                                <Grid item xs={2}></Grid>
-                                    <Grid item xs={6} component={Paper} style={{ padding: 5 }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel htmlFor="habitacionSelect">Habitacón</InputLabel>
-                                        <NativeSelect
-                                            fullWidth
-                                            value={this.state.nHabitacion}
-                                            onChange={this.roomChange}
-                                            inputProps={{
-                                                name: 'Habitacion',
-                                                id: 'habitacionSelect',
-                                            }}
-                                        >   <option value="" />
-                                            {this.state.habitaciones.map((habitacion, index) => {
-                                                return (
-                                                    <option key={index} value={habitacion.idRoom}>Habitacion {habitacion.idRoom}</option>
-                                                );
-                                            })}
-                                        </NativeSelect>
-                                        <FormHelperText>Habitacion</FormHelperText>
-                                    </FormControl>
-                                </Grid>
+                                {
+                                    /*
+                                        <Grid item xs={2}></Grid>
+                                            <Grid item xs={6} component={Paper} style={{ padding: 5 }}>
+                                            <FormControl fullWidth>
+                                                <InputLabel htmlFor="habitacionSelect">Habitacón</InputLabel>
+                                                <NativeSelect
+                                                    fullWidth
+                                                    value={this.state.nHabitacion}
+                                                    onChange={this.roomChange}
+                                                    inputProps={{
+                                                        name: 'Habitacion',
+                                                        id: 'habitacionSelect',
+                                                    }}
+                                                >   <option value="" />
+                                                    {this.state.habitaciones.map((habitacion, index) => {
+                                                        return (
+                                                            <option key={index} value={habitacion.idRoom}>Habitacion {habitacion.idRoom}</option>
+                                                        );
+                                                    })}
+                                                </NativeSelect>
+                                                <FormHelperText>Habitacion</FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                    */
+                                }
+                                
                                 <Grid item xs={2}></Grid>
                             </Grid>
-                            
+                            {/*
                             <Grid container>
                                 <Grid item xs={2}></Grid>                                       
                                 <Grid item xs={6} component={Paper} style={{padding: 5}}>
@@ -194,10 +223,13 @@ export default class Nassistant extends Component {
                                 </Grid>
                                 <Grid item xs={2}></Grid>
                             </Grid>
+                                        */  }
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={6} style={{marginTop: "3%"}}>
+                    <Grid item xs={9} style={{marginTop: "3%"}}>
+                        {/*
+
                         <Grid container component={Paper}>
                             <Grid item xs={12}>
                                 <Typography>
@@ -225,12 +257,25 @@ export default class Nassistant extends Component {
                                 </Typography>
                             </Grid>
                         </Grid>
-
-                        <Grid container component={Paper} style={{marginTop: "3%"}}>
+                        */}
+                        <Grid container component={Paper} style={{marginTop: "5%"}}>
                             <Grid item xs={12}>
-                                <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Procedures"} />
+                                <CustomTable rows={this.state.rows} headCells={this.headCells} title={"Tareas"} />
                             </Grid>
                         </Grid>
+                        <Grid item xs={2}></Grid>
+                        <Grid item xs={6} >
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className="submit"
+                                    onClick = {this.sendData}
+                                    >
+                                    Enviar
+                                </Button>
+                            </Grid>
                     </Grid>
 
                     
