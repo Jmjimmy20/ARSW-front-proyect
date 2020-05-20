@@ -25,6 +25,8 @@ class AsignarProcedimiento extends Component {
       P_idType:'',
       P_telefono:'',
       P_rh:'',
+      camas:[],
+      cama:'',
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem velit, rhoncus at augue nec, aliquam mattis sapien. Donec eu libero ut magna vehicula vehicula in sit amet nisl. Ut tincidunt ante sed pharetra consequat. Integer quis nisl neque. Suspendisse accumsan nisi vitae nisl tempor, scelerisque tempor justo commodo. Mauris volutpat mi a facilisis dapibus. Praesent non sagittis quam. Vestibulum molestie ex eu est eleifend, eget egestas est sodales. Duis vitae ligula vitae ligula blandit tincidunt a et sapien. Maecenas eu leo sit amet magna blandit elementum eu non velit. Nam cursus nisi ac orci bibendum, sed varius nisl rhoncus. Suspendisse ac blandit mi. Sed ultrices consectetur tortor vel porttitor. Vestibulum non augue lobortis, mollis nunc ut, ullamcorper nisl. Integer magna sapien, commodo ut suscipit eu, sodales eu lacus."
     }
   }
@@ -62,6 +64,13 @@ class AsignarProcedimiento extends Component {
               pacientes:res.data
           })
       });
+
+      Axios.get("/nurse/beds/romnumber/available")
+      .then(res =>{
+        this.setState({
+          camas:res.data
+        })
+      })
     
   }
 
@@ -114,6 +123,13 @@ class AsignarProcedimiento extends Component {
       enfermera: auxNurse
     })
     
+  }
+
+  getCamas =(event) =>{
+    let auxCama = event.target.value;
+    this.setState({
+      cama:auxCama
+    })
   }
 
   handleChangeProcedureID = (event) => {
@@ -279,16 +295,13 @@ class AsignarProcedimiento extends Component {
               <InputLabel id="typeNurseInput">Cama</InputLabel>
               <NativeSelect
                 fullWidth
-                value={this.state.enfermera}
-                onChange={this.getNurses}
+                value={this.state.cama}
+                onChange={this.getCamas}
               >
                 <option value=""> </option>
-                {this.state.enfermeras.map((nuraux, index) => {
-                  console.log(nuraux)
-                  let n_name = nuraux.nurses[0].name
-                  let n_id = nuraux.nurses[0].nurseId
+                {this.state.camas.map((bedaux, index) => {
                   return (
-                    <option key={index} value={nuraux.userId}> {n_id} - {n_name} </option>
+                    <option key={index} value={bedaux.bedId}> {bedaux.bedId} </option>
                     )
                 })}
               </NativeSelect>

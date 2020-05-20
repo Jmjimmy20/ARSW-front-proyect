@@ -16,6 +16,17 @@ export default class Admin extends Component {
         this.logout = this.logout.bind(this)
     }
 
+    componentDidMount(){
+        var jwtDecode = require('jwt-decode');
+        var token = cookie.load('userToken');
+        let deco = jwtDecode(token);
+        if(deco.jti != "ADMIN" ){
+            
+            window.location="/";
+
+        }
+    }
+
     logout(){
         cookie.remove('userToken',{path:'/'})
         console.log(cookie.load('userToken'))

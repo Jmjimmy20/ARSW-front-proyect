@@ -6,6 +6,7 @@ import NAssistant from './N_Assistant';
 import NPatient from './N_Patient';
 import CustomTable from '../CustomTablex';
 import SockJsClient from 'react-stomp';
+import Axios from 'axios';
 
 export default class Nurses extends Component {
 
@@ -22,13 +23,17 @@ export default class Nurses extends Component {
     }
 
     componentDidMount() {
+        
         var jwtDecode = require('jwt-decode');
         var token = cookie.load('userToken');
-        console.log(token);
         let deco = jwtDecode(token);
+        if(deco.jti != "MANAGER" ){
+            window.location="/";
+        }
+        console.log(deco)
         this.setState({
-            name:deco.sub // Cambiar 'jonatanG' por deco.sub
-        })
+            name:deco.sub 
+        }) 
     }
 
     logout(){
@@ -79,7 +84,16 @@ export default class Nurses extends Component {
     };
 
     updateDashboard = () =>{
-
+        var jwtDecode = require('jwt-decode');
+        var token = cookie.load('userToken');
+        let deco = jwtDecode(token);
+        let auxRow = []
+        Axios.get("/nurse/nurses-assistant/block/nurseGovId/" + deco.sub)
+        .then(res =>{
+            for(const nur of res.data){
+                
+            }
+        })
     }
     
     

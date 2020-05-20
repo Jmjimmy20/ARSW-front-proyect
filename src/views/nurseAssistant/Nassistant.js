@@ -62,6 +62,11 @@ export default class Nassistant extends Component {
         console.log(token);
         var jwtDecode = require('jwt-decode');
         let deco = jwtDecode(token);
+        if(deco.jti != "ASSISTANT" ){
+            
+            window.location="/";
+
+        }
         this.setState({
             tDeco:deco
         })
