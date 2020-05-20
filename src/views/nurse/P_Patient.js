@@ -59,7 +59,7 @@ export default class P_Patient extends Component {
         if (this.state.vistaSelect === "cuarto")
             return <ModifyRoom />
         else if (this.state.vistaSelect === "procedimiento")
-            return <ModifyProcedure />
+            return <ModifyProcedure idPa = {this.state.patient} />
         else
             return ""
     }

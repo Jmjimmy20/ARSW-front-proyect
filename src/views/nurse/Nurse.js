@@ -34,6 +34,8 @@ export default class Nurses extends Component {
         this.setState({
             name:deco.sub 
         }) 
+
+        this.updateDashboard()
     }
 
     logout(){
@@ -92,7 +94,18 @@ export default class Nurses extends Component {
         .then(res =>{
             for(const nur of res.data){
                 
+                var tasks = asyncTask(nur.nurseId)
+                console.log(tasks)
+                tasks.then(resTotal =>{
+                    let row = {name: nur.nurseId, nNurse: nur.name, totalTask: resTotal.total, pTask: resTotal.pendientes, perc: resTotal.total !== 0? (((resTotal.total-resTotal.pendientes)/resTotal.total)*100) + "%" : "0%"}
+                    console.log(resTotal)
+                    auxRow.push(row)
+                    this.setState({
+                        rows:auxRow
+                    })
+                })
             }
+            
         })
     }
     
@@ -220,4 +233,22 @@ export default class Nurses extends Component {
             
         )
     }
+}
+
+async function asyncTask(nursei){
+    const auxAll = await  Axios.get("/nurse/undergoes/today/nurse/" + nursei)
+    .then(resTask =>{
+        return resTask.data.length
+    })
+    const auxNotDone = await Axios.get("/nurse/undergoes/notdone/today/nurse/" + nursei)
+    .then(resTasknotDone =>{
+        return resTasknotDone.data.length
+    })
+
+    let obj = {
+        total:auxAll,
+        pendientes:auxNotDone
+    }
+
+    return obj
 }

@@ -8,10 +8,14 @@ class ModifyProcedure extends Component {
     this.state = {
       procedure: '',
       procedureModify: '',
+      procedureId: '',
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem velit, rhoncus at augue nec, aliquam mattis sapien.",
       descriptionModify: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem velit, rhoncus at augue nec, aliquam mattis sapien.",
-      procedures: []
+      procedures: [],
+      procPaciente:[]
+
     }
+
   }
 
   componentDidMount() {
@@ -20,6 +24,13 @@ class ModifyProcedure extends Component {
       .then(res => {
         this.setState({ procedures: res.data });
       });
+
+      Axios.get("/nurse/procedures/patient/" + this.props.idPa)
+      .then(res =>{
+          this.setState({
+            procPaciente:res.data
+          })
+      })
   }
   
   handleChangeProcedure = (event) => {
@@ -27,10 +38,12 @@ class ModifyProcedure extends Component {
     let value = event.target.value
     this.setState((state) => {
       for (const procedure of state.procedures) {
-        console.log(procedure, value);
+        //console.log(procedure, value);
         if (procedure.procedureId === parseInt(value)) {
+    
           return {
             procedure: value,
+            procedureId: procedure.name,
             description: procedure.description
           }
         }
@@ -42,8 +55,8 @@ class ModifyProcedure extends Component {
     //console.log(event);
     let value = event.target.value
     this.setState((state) => {
-      for (const procedure of state.procedures) {
-        console.log(procedure, value);
+      for (const procedure of state.procPaciente) {
+        //console.log(procedure, value);
         if (procedure.procedureId === parseInt(value)) {
           return {
             procedureModify: value,
@@ -56,7 +69,7 @@ class ModifyProcedure extends Component {
 
   handleChangeProcedureID = (event) => {
     //console.log(event);
-    this.setState({ procedureId: event.target.value });
+    this.setState({ procedureId: event.target.value, procedure:event.target.value });
   }
 
   search = () => {
@@ -96,7 +109,7 @@ class ModifyProcedure extends Component {
                     onChange={this.handleChangeProcedureModify}
                   >
                     <option value=""> </option>
-                    {this.state.procedures.map((procedure) => {
+                    {this.state.procPaciente.map((procedure) => {
                       return (
                         <option key={procedure.procedureId} value={procedure.procedureId}> {procedure.name} - {procedure.description}</option>
                       )
