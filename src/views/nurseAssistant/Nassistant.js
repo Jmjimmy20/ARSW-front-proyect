@@ -240,18 +240,8 @@ export default class Nassistant extends Component {
                                     Log Out
                                 </Button>
                             </Grid>
+                            
                             <Grid item xs={1}></Grid>
-                            <Grid item xs={3} >
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className="submit"
-                                    >
-                                    Mis datos
-                                </Button>
-                            </Grid><Grid item xs={1}></Grid>
                             <Grid item xs={3} >
                                 <Button
                                     type="submit"
