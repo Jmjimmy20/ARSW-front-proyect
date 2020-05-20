@@ -5,6 +5,10 @@ import cookie from 'react-cookies';
 import CustomTable from '../CustomTable';
 import moment from 'moment';
 
+import TextField from '@material-ui/core/TextField';
+
+import SockJsClient from 'react-stomp';
+
 
 export default class Nassistant extends Component {
 
@@ -32,7 +36,14 @@ export default class Nassistant extends Component {
             procedimientos:[],
             undergoes:[],
             selectedData:[],
-            tDeco:''
+            tDeco:'',
+            alerta: false,
+            text:"",
+            messages: [],
+            typedMessage: "",
+            name: "",
+            usersend:"",
+            user:""
         }
         this.logout = this.logout.bind(this)
         
@@ -61,12 +72,62 @@ export default class Nassistant extends Component {
                 rows:res
             })
         })
+
+        //-----------
+        Axios.get("/assistant-nurse/boss/nurse/user/" + deco.sub) //cambiar patriciaM" por "+this.state.usersend
+        .then(res =>{
+            console.log(res.data.loginUser)
+            this.setState({
+                user:res.data.loginUser
+            })
+            
+            
+        });
+
+
+
     }
 
     logout(){
         cookie.remove('userToken',{path:'/'})
         console.log(cookie.load('userToken'))
         this.props.history.push("/")
+    }
+
+    sendMessage = () => {
+        this.clientRef.sendMessage('/app/user-all', JSON.stringify({
+            name: this.state.user,
+            message: this.state.typedMessage
+        }));
+    };
+
+    displayMessages = () => {
+        return (
+            <div>
+                {this.state.messages.map(msg => {
+                    return (
+                        <div>
+                            {this.state.name == msg.name ?
+                                <div>
+                                    <p className="title1">{msg.name} : </p><br/>
+                                    <p>{msg.message}</p>
+                                </div> :
+                                <div>
+                                    <p className="title2">{msg.name} : </p><br/>
+                                    <p>{msg.message}</p>
+                                </div>
+                            }
+                        </div>)
+                })}
+            </div>
+        );
+    };
+
+    alert = (event) => {
+        console.log("Alerta");
+        this.setState({
+            alert: true
+        })
     }
     
     getNurse = (event) => {
@@ -189,10 +250,33 @@ export default class Nassistant extends Component {
                                     variant="contained"
                                     color="primary"
                                     className="submit"
+                                    onClick = {this.alert}
                                     >
                                     Alerta
                                 </Button>
                             </Grid>
+                            {//--------------------------------
+                            this.state.alert == true ? 
+                              <div className="align-center">
+                              <br/><br/>
+                              <table>
+                                  <tr>
+                                      <td>
+                                          <TextField id="outlined-basic" label="Escriba su alerta una alerta:" variant="outlined"
+                                                     onChange={(event) => {
+                                                         this.setState({typedMessage: event.target.value});
+                                                     }}/>
+                                      </td>
+                                      <td>
+                                          <Button variant="contained" color="primary"
+                                                  onClick={this.sendMessage}>Enviar</Button>
+                                      </td>
+                                  </tr>
+                              </table>
+                          </div>
+                            :
+                            ""
+                        }
                         </Grid>
                     </Grid>
                     <Grid item xs={12} component={Paper} style={{marginTop: "5%", marginLeft:10, marginRight:10}}>
@@ -214,7 +298,25 @@ export default class Nassistant extends Component {
                         </Grid>
                     </Grid>
                 </Grid>
+                <SockJsClient url='https://happ2020.herokuapp.com/websocket-chat/'
+                              topics={['/topic/user']}
+                              onConnect={() => {
+                                  console.log("connected");
+                              }}
+                              onDisconnect={() => {
+                                  console.log("Disconnected");
+                              }}
+                              onMessage={(msg) => {
+                                  var jobs = this.state.messages;
+                                  jobs.push(msg);
+                                  this.setState({messages: jobs});
+                                  console.log(this.state);
+                              }}
+                              ref={(client) => {
+                                  this.clientRef = client
+                              }}/>
             </div>
+
         )
     }
 

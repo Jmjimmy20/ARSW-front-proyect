@@ -5,15 +5,30 @@ import { Route, Switch } from 'react-router-dom';
 import NAssistant from './N_Assistant';
 import NPatient from './N_Patient';
 import CustomTable from '../CustomTablex';
+import SockJsClient from 'react-stomp';
 
 export default class Nurses extends Component {
 
     constructor(props) {
         super(props);
         this.state = { 
-            rows:[]
+            rows:[],
+            messages: [],
+            typedMessage: "",
+            name: "",
+            user:""
         }
         this.logout = this.logout.bind(this)
+    }
+
+    componentDidMount() {
+        var jwtDecode = require('jwt-decode');
+        var token = cookie.load('userToken');
+        console.log(token);
+        let deco = jwtDecode(token);
+        this.setState({
+            name:deco.sub // Cambiar 'jonatanG' por deco.sub
+        })
     }
 
     logout(){
@@ -28,6 +43,39 @@ export default class Nurses extends Component {
         { id: 'IdTask', label: 'Id Tarea' },
         { id: 'nTask', label: 'Tarea' }
       ];
+
+      displayMessages = () => {
+        return (
+            <div>
+                {this.state.messages.map(msg => {
+                    console.log("nombre mensajes");
+                    console.log(msg.name);
+                    console.log(msg);
+
+                    return (
+                        <div>
+                            {this.state.name == msg.name ?
+                                <div>
+                                    <p className="title1">Alerta: </p><br/>
+                                    <p>{msg.message}</p>
+                                </div> :
+                                <div>
+                                    <p className="title2">No hay alertas. </p><br/>
+                                    
+                                </div>
+                            }
+                        </div>)
+                })}
+            </div>
+        );
+    };
+
+    sendMessage = () => {
+        this.clientRef.sendMessage('/app/user-all', JSON.stringify({
+            name: this.state.name,
+            message: this.state.typedMessage
+        }));
+    };
     
     
     render() {
@@ -116,8 +164,37 @@ export default class Nurses extends Component {
                         </Switch>
                     </Grid>
                 </Grid>
+                <div>
+                    <div className="align-center">
+                        <h1>Sus Alertas</h1>
+                        <br/><br/>
+                    </div>
+                    
+                    <div className="align-center">
+                        {this.displayMessages()}
+                    </div>
+                    <SockJsClient url='https://happ2020.herokuapp.com/websocket-chat/'
+                                topics={['/topic/user']}
+                                onConnect={() => {
+                                    console.log("connected");
+                                }}
+                                onDisconnect={() => {
+                                    console.log("Disconnected");
+                                }}
+                                onMessage={(msg) => {
+                                    var jobs = this.state.messages;
+                                    jobs.push(msg);
+                                    this.setState({messages: jobs});
+                                    console.log(this.state);
+                                }}
+                                ref={(client) => {
+                                    this.clientRef = client
+                                }}/>
+                </div>
                 
             </div>
+
+            
         )
     }
 }
