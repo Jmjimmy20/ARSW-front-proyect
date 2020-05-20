@@ -359,8 +359,13 @@ async function asyncFunc(deco){
                     auxHora = moment(under.date) .format('LT')
                     let row = {name: under.undergoesId, nPaci:auxNombre, nCuarto: auxCuarto, hora: auxHora, idUnde:under.undergoesId}
                     tempRows.push(row)
+                    //console.log(row)
+                    console.log(under.undergoesId , underN.undergoesId)
                 }
+                
+
             }
+            
         }
     }
 
@@ -374,7 +379,16 @@ async function asyncFunc(deco){
             }
         }
     }
-    console.log(tempRows)
+    let finRows = []
+    //console.log(_.uniq(tempRows))
+    /*finRows.push(tempRows[0])
+    for(const au of tempRows){
+        for(const fr of finRows){
+            if(au.idUnde !== fr.idUnde){
+                finRows.push(au)
+            }
+        }
+    }*/
 
     return tempRows;
 }

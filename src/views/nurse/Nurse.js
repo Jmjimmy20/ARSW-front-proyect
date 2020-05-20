@@ -26,6 +26,7 @@ export default class Nurses extends Component {
         
         var jwtDecode = require('jwt-decode');
         var token = cookie.load('userToken');
+        console.log(token)
         let deco = jwtDecode(token);
         if(deco.jti != "MANAGER" ){
             window.location="/";
@@ -92,6 +93,7 @@ export default class Nurses extends Component {
         let auxRow = []
         Axios.get("/nurse/nurses-assistant/block/nurseGovId/" + deco.sub)
         .then(res =>{
+            console.log(res.data)
             for(const nur of res.data){
                 
                 var tasks = asyncTask(nur.nurseId)

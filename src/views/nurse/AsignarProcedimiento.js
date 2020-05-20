@@ -3,6 +3,7 @@ import { FormControl, InputLabel, NativeSelect, Grid, TextField, Button, Typogra
 import { DatePicker, MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
 import React, { Component } from 'react';
 import Axios from 'axios'
+import moment from 'moment';
 
 class AsignarProcedimiento extends Component {
 
@@ -27,6 +28,7 @@ class AsignarProcedimiento extends Component {
       P_rh:'',
       camas:[],
       cama:'',
+      stateCama:false,
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem velit, rhoncus at augue nec, aliquam mattis sapien. Donec eu libero ut magna vehicula vehicula in sit amet nisl. Ut tincidunt ante sed pharetra consequat. Integer quis nisl neque. Suspendisse accumsan nisi vitae nisl tempor, scelerisque tempor justo commodo. Mauris volutpat mi a facilisis dapibus. Praesent non sagittis quam. Vestibulum molestie ex eu est eleifend, eget egestas est sodales. Duis vitae ligula vitae ligula blandit tincidunt a et sapien. Maecenas eu leo sit amet magna blandit elementum eu non velit. Nam cursus nisi ac orci bibendum, sed varius nisl rhoncus. Suspendisse ac blandit mi. Sed ultrices consectetur tortor vel porttitor. Vestibulum non augue lobortis, mollis nunc ut, ullamcorper nisl. Integer magna sapien, commodo ut suscipit eu, sodales eu lacus."
     }
   }
@@ -92,6 +94,15 @@ class AsignarProcedimiento extends Component {
                     P_telefono:res.data.phone,
                     P_rh:res.data.rh
                 })
+              if(paci.stays.length===0){
+                this.setState({
+                  stateCama:true
+                })
+              }else{
+                this.setState({
+                  stateCama:false
+                })
+              }
 
             })
             
@@ -159,7 +170,91 @@ class AsignarProcedimiento extends Component {
   }
 
   asignar=() =>{
+    let enfermeraJ=null
+    let procJ=null
+    let paciJ=null
+    let stayJ=null
 
+    for(const auxEn of this.state.enfermeras){
+      if(auxEn.nurses[0].nurseId === parseInt(this.state.enfermera) ){
+          enfermeraJ = auxEn.nurses[0]
+      }
+    }
+    for(const auxPro of this.state.procedures){
+      if(auxPro.procedureId === parseInt(this.state.procedure)){
+        procJ = auxPro
+      }
+    }
+    for(const auxPaci of this.state.pacientes){
+      if(auxPaci.patientId === this.state.P_id){
+        paciJ = auxPaci
+      }
+    }
+
+    for(const auxStay of paciJ.stays){
+      if(auxStay.endTime===null){
+        stayJ = auxStay
+      }
+    }
+
+
+
+    if(!this.state.stateCama && stayJ){
+      console.log("entra a enviar")
+      let underTask = {
+        date: new Date(this.state.selectedDate.toDateString() + " " + this.state.selectedTime.toTimeString()),
+        nurse:enfermeraJ,
+        procedure:procJ,
+        stay:stayJ
+      }
+      console.log(underTask)
+      Axios.post("/nurse/undergoes", underTask)
+      .then(()=>{
+        this.setState({
+          procedure: '',
+          procedureId: '',
+          cama:'',
+          enfermera:''
+        })
+        alert("Se ha insertado el procedimiento")
+      })
+
+    }
+
+    console.log(this.state.selectedDate.toDateString())
+    
+  }
+
+  renderCama=()=>{
+
+    if(this.state.stateCama){
+      return (
+        <Grid item xs={12} > 
+              <Typography variant={"h6"}>
+                Cama
+              </Typography>
+              
+              <FormControl fullWidth>
+                <InputLabel id="typeNurseInput">Cama</InputLabel>
+                <NativeSelect
+                  fullWidth
+                  value={this.state.cama}
+                  onChange={this.getCamas}
+                >
+                  <option value=""> </option>
+                  {this.state.camas.map((bedaux, index) => {
+                    return (
+                      <option key={index} value={bedaux.bedId}> {bedaux.bedId} </option>
+                      )
+                  })}
+                </NativeSelect>
+              </FormControl>
+            </Grid>
+      )
+    }else{
+      return ""
+    }
+    
   }
 
   render() {
@@ -286,27 +381,9 @@ class AsignarProcedimiento extends Component {
               {this.state.description}
             </Typography>
           </Grid>
-          <Grid item xs={12} > 
-            <Typography variant={"h6"}>
-              Cama
-            </Typography>
-            
-            <FormControl fullWidth>
-              <InputLabel id="typeNurseInput">Cama</InputLabel>
-              <NativeSelect
-                fullWidth
-                value={this.state.cama}
-                onChange={this.getCamas}
-              >
-                <option value=""> </option>
-                {this.state.camas.map((bedaux, index) => {
-                  return (
-                    <option key={index} value={bedaux.bedId}> {bedaux.bedId} </option>
-                    )
-                })}
-              </NativeSelect>
-            </FormControl>
-          </Grid>
+          
+          {this.renderCama()}
+
           <Grid item xs={12} > 
             <Typography variant={"h6"}>
               Asignar Enfermera
