@@ -160,6 +160,10 @@ export default class Nassistant extends Component {
                             rows:resN
                         })
                     })
+                    this.clientRef.sendMessage('/app/user-all', JSON.stringify({
+                        name: this.state.user,
+                        message: 'update'
+                    }));
                 })
             })
         }

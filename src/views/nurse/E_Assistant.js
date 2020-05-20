@@ -38,9 +38,15 @@ export default class E_Assistant extends Component {
         //console.log(token);
         Axios.get("/nurse/users")
         .then(res =>{
+            let auxList = [];
+            for(const datos of res.data){
+                if(datos.nurses.length!==0){
+                auxList.push(datos)
+                }
+            }
           //console.log(res.data)
             this.setState({
-                enfermeras:res.data
+                enfermeras:auxList
             })
         });
         console.log(this.state.enfermeras.length);

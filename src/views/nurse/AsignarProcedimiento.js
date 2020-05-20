@@ -28,17 +28,27 @@ class AsignarProcedimiento extends Component {
     });
     Axios.get("/nurse/users")
       .then(res =>{
+        let auxList = [];
+        for(const datos of res.data){
+            if(datos.nurses.length!==0){
+              auxList.push(datos)
+            }
+        }
+        console.log(auxList)
           this.setState({
-              enfermeras:res.data
+              enfermeras:auxList
           })
       });
 
+      
     Axios.get("nurse/room/patient/" + this.props.pacient)  
       .then(res =>{
         console.log(res)
       })
     
   }
+
+
   
   handleChangeProcedure = (event) => {
     //console.log(event);

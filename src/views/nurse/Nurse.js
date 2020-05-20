@@ -38,10 +38,11 @@ export default class Nurses extends Component {
     }
 
     headCells = [
-        { id: 'IdNurse', label: 'ID Enfermera' },
-        { id: 'nNurse', label: 'Nombre Enfermera' },
-        { id: 'IdTask', label: 'Id Tarea' },
-        { id: 'nTask', label: 'Tarea' }
+        
+        { id: 'nNurse', label: 'Enfermera' },
+        { id: 'totalTask', label: 'Tareas totales' },
+        { id: 'pTask', label: 'Tareas pendientes' },
+        { id: 'perc', label: '% Completado' }
       ];
 
       displayMessages = () => {
@@ -76,6 +77,10 @@ export default class Nurses extends Component {
             message: this.state.typedMessage
         }));
     };
+
+    updateDashboard = () =>{
+
+    }
     
     
     render() {
@@ -183,9 +188,13 @@ export default class Nurses extends Component {
                                 }}
                                 onMessage={(msg) => {
                                     var jobs = this.state.messages;
-                                    jobs.push(msg);
-                                    this.setState({messages: jobs});
-                                    console.log(this.state);
+                                    if(msg.message==='update'){
+                                        this.updateDashboard()
+                                    }else{
+                                        jobs.push(msg);
+                                        this.setState({messages: jobs});
+                                        console.log(this.state);
+                                    }
                                 }}
                                 ref={(client) => {
                                     this.clientRef = client
