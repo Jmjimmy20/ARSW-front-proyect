@@ -1,5 +1,5 @@
 import MomentUtils from '@date-io/moment';
-import { FormControl, InputLabel, NativeSelect, Grid, TextField, Button, Typography } from '@material-ui/core';
+import { FormControl, InputLabel, NativeSelect, Grid, TextField, Button, Typography, Paper } from '@material-ui/core';
 import { DatePicker, MuiPickersUtilsProvider, TimePicker } from '@material-ui/pickers';
 import React, { Component } from 'react';
 import Axios from 'axios'
@@ -16,6 +16,15 @@ class AsignarProcedimiento extends Component {
       procedures: [],
       enfermeras:[],
       enfermera:'',
+      pacientes:[],
+      P_name:'',
+      P_id:'',
+      P_direccion:'',
+      P_genero:'',
+      P_idDoc:'',
+      P_idType:'',
+      P_telefono:'',
+      P_rh:'',
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sem velit, rhoncus at augue nec, aliquam mattis sapien. Donec eu libero ut magna vehicula vehicula in sit amet nisl. Ut tincidunt ante sed pharetra consequat. Integer quis nisl neque. Suspendisse accumsan nisi vitae nisl tempor, scelerisque tempor justo commodo. Mauris volutpat mi a facilisis dapibus. Praesent non sagittis quam. Vestibulum molestie ex eu est eleifend, eget egestas est sodales. Duis vitae ligula vitae ligula blandit tincidunt a et sapien. Maecenas eu leo sit amet magna blandit elementum eu non velit. Nam cursus nisi ac orci bibendum, sed varius nisl rhoncus. Suspendisse ac blandit mi. Sed ultrices consectetur tortor vel porttitor. Vestibulum non augue lobortis, mollis nunc ut, ullamcorper nisl. Integer magna sapien, commodo ut suscipit eu, sodales eu lacus."
     }
   }
@@ -45,9 +54,41 @@ class AsignarProcedimiento extends Component {
       .then(res =>{
         console.log(res)
       })
+
+    Axios.get("/nurse/patients")
+      .then(res =>{
+          console.log(res.data)
+          this.setState({
+              pacientes:res.data
+          })
+      });
     
   }
 
+  getPatient = (event) => {
+    let auxPaciente = event.target.value;
+    //console.log(event.target.value);
+    
+    for(const paci of this.state.pacientes){
+        if(paci.patientId === parseInt(auxPaciente)){
+            Axios.get("/nurse/patient/" + paci.patientId)
+            .then(res => {
+                this.setState({
+                    P_name: res.data.name,
+                    P_id:res.data.patientId,
+                    P_direccion:res.data.address,
+                    P_genero:res.data.gender,
+                    P_idDoc:res.data.govId,
+                    P_idType:res.data.govType,
+                    P_telefono:res.data.phone,
+                    P_rh:res.data.rh
+                })
+
+            })
+            
+        }
+    }
+}
 
   
   handleChangeProcedure = (event) => {
@@ -109,6 +150,27 @@ class AsignarProcedimiento extends Component {
     return (
       <div>
         <Grid container>
+          <Grid item xs={12}>
+              <Typography variant={"h6"}>
+                Escoja el paciente
+              </Typography>
+              <FormControl fullWidth error={this.state.errorType}>
+                  <InputLabel id="typeNurseInput">Paciente</InputLabel>
+                  <NativeSelect 
+                      fullWidth
+                      value={this.state.P_id}
+                      onChange={this.getPatient}
+                      >
+                      <option value=""> </option>
+                      {this.state.pacientes.map((paciente, index) => {
+                          return(
+                          <option key={index} value={paciente.patientId}> {paciente.patientId} - {paciente.name} </option>
+                          );
+                      })}
+                      
+                  </NativeSelect>
+              </FormControl>
+          </Grid>
           <Grid item xs={12} > 
             <Typography variant={"h6"}>
               Escoja el procedimient

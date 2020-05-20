@@ -88,24 +88,6 @@ export default class A_Patient extends Component {
                     </Typography>
                 </Grid>
                 <Grid container style={{paddingTop:'2%'}}>
-                    <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
-                        <FormControl fullWidth error={this.state.errorType}>
-                            <InputLabel id="typeNurseInput">Paciente</InputLabel>
-                            <NativeSelect 
-                                fullWidth
-                                value={this.state.P_id}
-                                onChange={this.getPatient}
-                                >
-                                <option value=""> </option>
-                                {this.state.pacientes.map((paciente, index) => {
-                                    return(
-                                    <option key={index} value={paciente.patientId}> {paciente.patientId} - {paciente.name} </option>
-                                    );
-                                })}
-                                
-                            </NativeSelect>
-                        </FormControl>
-                    </Grid>
 
                     <Grid item xs={11} component={Paper} style={{ padding: "2%", marginBottom: "2%" }}>
                         <Grid container >
