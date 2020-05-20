@@ -202,7 +202,8 @@ class AsignarProcedimiento extends Component {
     if(!this.state.stateCama && stayJ){
       console.log("entra a enviar")
       let underTask = {
-        date: new Date(this.state.selectedDate.toDateString() + " " + this.state.selectedTime.toTimeString()),
+        //date: new Date(this.state.selectedDate.toDateString() + " " + this.state.selectedTime.toTimeString()),
+        date: new moment(),
         nurse:enfermeraJ,
         procedure:procJ,
         stay:stayJ
@@ -220,8 +221,6 @@ class AsignarProcedimiento extends Component {
       })
 
     }
-
-    console.log(this.state.selectedDate.toDateString())
     
   }
 
